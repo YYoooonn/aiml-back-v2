@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class TestController(
-    private val userRepository: UserRepository,
-    private val meshRepository: MeshRepository
+  private val userRepository: UserRepository,
+  private val meshRepository: MeshRepository
 ) {
-    @GetMapping("/test/user")
-    fun getUsers() = userRepository.findAll()
+  @GetMapping("/test/user")
+  fun getUsers() = userRepository.findAll()
 
-    @GetMapping("/test/mesh")
-    fun getMesh() = meshRepository.findAll()
+  @GetMapping("/test/mesh")
+  fun getMesh() = meshRepository.findAll()
 }
