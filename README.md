@@ -1,0 +1,5 @@
+```bash
+# format
+./gradlew ktlintFormat
+
+```

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: api-service
+  config:
+    import:
+      - classpath:config/application-mysql.yml
+      - classpath:config/application-postgres.yml
+server:
+  port: 8080
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
