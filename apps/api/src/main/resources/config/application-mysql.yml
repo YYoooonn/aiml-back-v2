@@ -1,4 +1,4 @@
-spring:
+mysql:
   datasource:
     url: jdbc:mysql://mysql-db:3306/user_db
     username: ${DB_USER}

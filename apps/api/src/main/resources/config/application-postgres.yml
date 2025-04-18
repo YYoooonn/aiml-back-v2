@@ -1,4 +1,4 @@
-spring:
+postgres:
   datasource:
     url: jdbc:postgresql://postgres-db:5432/geometry_db
     username: ${DB_USER}

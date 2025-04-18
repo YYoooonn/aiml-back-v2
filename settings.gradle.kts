@@ -9,6 +9,7 @@ include(
   "apps:batch",
   "libs:common",
   "modules:user",
+  "modules:project",
   "modules:geometry"
 )
 
@@ -28,4 +29,7 @@ pluginManagement {
       }
     }
   }
+}
+plugins {
+  id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
 }
