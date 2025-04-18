@@ -1,13 +1,45 @@
 spring:
   application:
     name: api-service
-  config:
-    import:
-      - classpath:config/application-mysql.yml
-      - classpath:config/application-postgres.yml
+  #  config:
+  #    import:
+  #      - classpath:config/application-mysql.yml
+  #      - classpath:config/application-postgres.yml
+  datasource:
+    url: jdbc:mysql://mysql-db:3306/user_db
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update   # create, update, validate, none 중 선택
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    show-sql: true
+    open-in-view: false
 server:
   port: 8080
 logging:
   level:
     root: INFO
     org.springframework: INFO
+
+postgres:
+  datasource:
+    url: jdbc:postgresql://postgres-db:5432/geometry_db
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    open-in-view: false
+
+security:
+  jwt:
+    secret-key: ${JWT_SECRET}

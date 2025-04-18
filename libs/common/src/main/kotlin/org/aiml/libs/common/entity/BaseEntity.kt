@@ -9,7 +9,7 @@ abstract class BaseEntity {
   @Column(nullable = false, updatable = false)
   var createdAt: LocalDateTime = LocalDateTime.now()
 
-  @Column(nullable = false, updatable = false)
+  @Column(nullable = false, updatable = true)
   var updatedAt: LocalDateTime = LocalDateTime.now()
 
   @PrePersist
