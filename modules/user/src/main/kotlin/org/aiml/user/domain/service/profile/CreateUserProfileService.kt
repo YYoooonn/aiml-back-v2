@@ -1,7 +1,8 @@
 package org.aiml.user.domain.service.profile
 
+import org.aiml.user.domain.command.CreateUserProfileCommand
 import org.aiml.user.domain.model.UserProfile
-import org.aiml.user.domain.port.output.UserProfilePersistencePort
+import org.aiml.user.domain.port.outbound.UserProfilePersistencePort
 import org.springframework.stereotype.Service
 
 @Service

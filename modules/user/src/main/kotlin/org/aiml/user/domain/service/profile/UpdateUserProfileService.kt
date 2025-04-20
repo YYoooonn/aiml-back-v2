@@ -1,14 +1,15 @@
 package org.aiml.user.domain.service.profile
 
+import org.aiml.user.domain.command.UpdateUserProfileCommand
 import org.aiml.user.domain.model.User
-import org.aiml.user.domain.port.output.UserPersistencePort
+import org.aiml.user.domain.port.outbound.UserCorePersistencePort
 import org.springframework.stereotype.Service
 
 @Service
 class UpdateUserProfileService(
-  private val userPersistencePort: UserPersistencePort
+    private val userCorePersistencePort: UserCorePersistencePort
 ) {
-  fun update(command: UpdateUserProfileCommand): User? {
-    TODO()
-  }
+    fun update(command: UpdateUserProfileCommand): User? {
+        TODO()
+    }
 }

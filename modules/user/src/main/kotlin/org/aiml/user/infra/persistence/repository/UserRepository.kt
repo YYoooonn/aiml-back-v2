@@ -1,6 +1,6 @@
 package org.aiml.user.infra.persistence.repository
 
-import org.aiml.user.infra.entity.UserEntity
+import org.aiml.user.infra.persistence.entity.UserEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.UUID
 

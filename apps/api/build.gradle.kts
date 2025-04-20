@@ -1,5 +1,7 @@
 dependencies {
   implementation(project(":modules:user"))
+  implementation(project(":modules:project"))
+  implementation(project(":modules:project-user"))
   implementation(project(":modules:geometry"))
   implementation(project(":libs:common"))
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")

@@ -10,7 +10,8 @@ include(
   "libs:common",
   "modules:user",
   "modules:project",
-  "modules:geometry"
+  "modules:geometry",
+  "modules:project-user"
 )
 
 pluginManagement {

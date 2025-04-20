@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.servlet.NoHandlerFoundException
 
 
 @ControllerAdvice
@@ -28,9 +29,15 @@ class GlobalExceptionHandler {
     return ResponseEntity(errorResponse, HttpStatus.UNAUTHORIZED)
   }
 
+  @ExceptionHandler(NoHandlerFoundException::class)
+  fun handleNoHandlerExceptions(e: NoHandlerFoundException): ResponseEntity<ErrorResponse> {
+    val errorResponse = ErrorResponse("NO_HANDLER", e.message ?: "Handler Not Found")
+    return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
+  }
+
   @ExceptionHandler(Exception::class)
   fun handleAllExceptions(e: Exception): ResponseEntity<ErrorResponse> {
-    val errorResponse = ErrorResponse("GENERAL_ERROR", e.message ?: "An error occurred")
+    val errorResponse = ErrorResponse("GENERAL_ERROR", e.message ?: "Unknown internal error")
     return ResponseEntity(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR)
   }
 }
