@@ -34,6 +34,10 @@ class UserCorePersistenceAdapter(
     return userRepository.existsByUsername(username)
   }
 
+  override fun existsByEmail(email: String): Boolean {
+    return userRepository.existsByEmail(email)
+  }
+
   override fun findByEmail(email: String): User? {
     return userRepository.findByEmail(email)?.toDomain()
   }

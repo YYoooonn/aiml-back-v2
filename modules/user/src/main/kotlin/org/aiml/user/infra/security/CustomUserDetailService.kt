@@ -2,6 +2,7 @@ package org.aiml.user.infra.security
 
 import org.aiml.user.domain.exception.UserNotFoundException
 import org.aiml.user.domain.port.outbound.UserCorePersistencePort
+import org.springframework.context.annotation.Lazy
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
@@ -9,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService
 
 @Service
 class CustomUserDetailsService(
-  private val userRepository: UserCorePersistencePort
+  @Lazy private val userRepository: UserCorePersistencePort
 ) : UserDetailsService {
 
   override fun loadUserByUsername(username: String): UserDetails {

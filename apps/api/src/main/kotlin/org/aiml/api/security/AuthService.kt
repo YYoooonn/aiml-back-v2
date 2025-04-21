@@ -4,7 +4,7 @@ import org.aiml.api.dto.LoginRequest
 import org.aiml.api.dto.LoginResponse
 import org.aiml.api.dto.ReissueRequest
 import org.aiml.api.dto.ReissueResponse
-import org.aiml.api.exception.InvalidTokenException
+import org.aiml.api.security.exception.InvalidTokenException
 import org.aiml.libs.common.security.jwt.JwtTokenProvider
 import org.aiml.user.domain.exception.UserNotFoundException
 import org.aiml.user.application.UserServiceFacade

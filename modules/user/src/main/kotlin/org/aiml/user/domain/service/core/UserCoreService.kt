@@ -25,10 +25,10 @@ class UserCoreService(
   }
 
   override fun createUser(command: CreateUserCoreCommand): User {
-    assertUserDoesNotExist(command.username)
+    checkDuplicates(command)
     val encryptedPassword = passwordEncoder.encode(command.password)
     val newUser = User.from(command, encryptedPassword)
-    return userCorePersistencePort.save(newUser) ?: throw Exception("error while creating user")
+    return userCorePersistencePort.save(newUser) ?: throw UserUnknownError("error while creating user")
   }
 
   override fun updateUser(principal: CustomUserPrincipal, command: UpdateUserCoreCommand): User {
@@ -38,7 +38,7 @@ class UserCoreService(
     val encryptedPassword = command.password?.let { passwordEncoder.encode(it) }
     val new = old.update(command, encryptedPassword)
     return userCorePersistencePort.save(new)
-      ?: throw RuntimeException("error while updating user")
+      ?: throw UserUnknownError("error while updating user")
   }
 
   override fun deleteUser(principal: CustomUserPrincipal) {
@@ -70,9 +70,12 @@ class UserCoreService(
     return userCorePersistencePort.existsByUsername(username)
   }
 
-  fun assertUserDoesNotExist(username: String) {
-    if (checkUserExists(username)) {
-      throw UserAlreadyExistsException("User $username already exists")
+  fun checkDuplicates(command: CreateUserCoreCommand) {
+    if (userCorePersistencePort.existsByUsername(command.username)) {
+      throw UserAlreadyExistsException("User $command.username already exists")
+    }
+    if (userCorePersistencePort.existsByEmail(command.email)) {
+      throw EmailAlreadyExistsException("User $command.username already exists")
     }
   }
 }

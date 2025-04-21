@@ -6,7 +6,9 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication(
   scanBasePackages = ["org.aiml"],
-  exclude = [DataSourceAutoConfiguration::class]
+  exclude = [
+    DataSourceAutoConfiguration::class,
+  ]
 )
 class ApiApplication
 
