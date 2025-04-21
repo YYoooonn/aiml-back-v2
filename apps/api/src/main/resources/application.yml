@@ -4,10 +4,6 @@ spring:
       add-mappings: false
   application:
     name: api-service
-  #  config:
-  #    import:
-  #      - classpath:config/application-mysql.yml
-  #      - classpath:config/application-postgres.yml
   datasource:
     url: jdbc:mysql://mysql-db:3306/user_db
     username: ${DB_USER}
@@ -21,6 +17,7 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
     show-sql: true
     open-in-view: false
+
 server:
   port: 8080
 logging:

@@ -16,7 +16,7 @@ import java.util.*
 
 @Transactional
 @Service
-class ProjectUserFacadeImp(
+class ProjectUserFacadeImpl(
   private val userCoreUseCase: UserCoreUseCase,
   private val projectUseCase: ProjectUseCase,
   private val projectUserUseCase: ProjectUserUseCase

@@ -11,7 +11,8 @@ include(
   "modules:user",
   "modules:project",
   "modules:geometry",
-  "modules:project-user"
+  "modules:project-user",
+  "modules:scene"
 )
 
 pluginManagement {
