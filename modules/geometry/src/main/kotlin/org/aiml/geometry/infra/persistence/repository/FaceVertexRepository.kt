@@ -3,10 +3,9 @@ package org.aiml.geometry.infra.persistence.repository
 import org.aiml.geometry.infra.persistence.entity.FaceVertexEntity
 import org.aiml.geometry.infra.persistence.entity.FaceVertexId
 import org.springframework.data.jpa.repository.JpaRepository
+import java.util.*
 
-interface FaceVertexJpaRepository : JpaRepository<FaceVertexEntity, FaceVertexId> {
-  fun findByFaceId(faceId: Long): List<FaceVertexEntity>
-  fun findByFaceIdOrderByVertexIndexOrder(faceId: Long): List<FaceVertexEntity>
-  fun deleteByFaceId(faceId: Long)
-  fun existsByFaceIdAndVertexIndexOrder(faceId: Long, vertexIndexOrder: Int): Boolean
+interface FaceVertexRepository : JpaRepository<FaceVertexEntity, FaceVertexId> {
+  fun saveAll(entities: List<FaceVertexEntity>): Optional<List<FaceVertexEntity>>
+  fun deleteByFaceIdIn(faceIds: List<Long>)
 }

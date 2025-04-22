@@ -6,6 +6,12 @@ plugins {
   kotlin("plugin.jpa") apply false
   id("org.springframework.boot") apply false
   id("io.spring.dependency-management") apply false
+
+  // for querydsl
+  kotlin("plugin.allopen") version "2.0.21" apply false
+  kotlin("plugin.noarg") version "2.0.21" apply false
+
+  // lint
   id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
 }
 
