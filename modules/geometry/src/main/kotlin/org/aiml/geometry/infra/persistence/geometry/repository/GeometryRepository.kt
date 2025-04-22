@@ -1,6 +1,6 @@
-package org.aiml.geometry.infra.persistence.repository
+package org.aiml.geometry.infra.persistence.geometry.repository
 
-import org.aiml.geometry.infra.persistence.entity.GeometryEntity
+import org.aiml.geometry.infra.persistence.geometry.entity.GeometryEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import java.util.*
 

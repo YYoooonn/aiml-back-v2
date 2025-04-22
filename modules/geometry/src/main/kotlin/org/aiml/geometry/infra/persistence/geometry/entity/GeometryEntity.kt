@@ -1,4 +1,4 @@
-package org.aiml.geometry.infra.persistence.entity
+package org.aiml.geometry.infra.persistence.geometry.entity
 
 import java.util.*
 import jakarta.persistence.*

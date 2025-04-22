@@ -17,7 +17,6 @@ object BeanNames {
   MysqlDataSourceProperties::class,
   MysqlJpaProperties::class
 )
-
 class MysqlSourceConfig {
 
   @Bean(name = [BeanNames.DATASOURCE])

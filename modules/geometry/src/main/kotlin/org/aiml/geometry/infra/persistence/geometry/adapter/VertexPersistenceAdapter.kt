@@ -1,9 +1,9 @@
-package org.aiml.geometry.infra.persistence.adapter
+package org.aiml.geometry.infra.persistence.geometry.adapter
 
 import org.aiml.geometry.domain.geometry.model.Vertex
 import org.aiml.geometry.domain.geometry.port.outbound.VertexPersistencePort
-import org.aiml.geometry.infra.persistence.entity.VertexEntity
-import org.aiml.geometry.infra.persistence.repository.VertexRepository
+import org.aiml.geometry.infra.persistence.geometry.entity.VertexEntity
+import org.aiml.geometry.infra.persistence.geometry.repository.VertexRepository
 import org.springframework.stereotype.Component
 import java.util.*
 

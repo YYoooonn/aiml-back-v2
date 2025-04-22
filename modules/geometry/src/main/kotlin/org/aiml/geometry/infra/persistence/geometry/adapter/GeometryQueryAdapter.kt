@@ -1,12 +1,10 @@
-package org.aiml.geometry.infra.persistence.adapter
+package org.aiml.geometry.infra.persistence.geometry.adapter
 
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.aiml.geometry.domain.geometry.model.Face
-import org.aiml.geometry.domain.geometry.model.Geometry
-import org.aiml.geometry.domain.geometry.model.Vertex
+import org.aiml.geometry.domain.geometry.model.*
+import org.aiml.geometry.infra.persistence.geometry.entity.*
 import org.aiml.geometry.domain.geometry.port.outbound.GeometryQueryPort
-import org.aiml.geometry.infra.persistence.entity.*
-import org.aiml.geometry.infra.persistence.repository.GeometryRepository
+import org.aiml.geometry.infra.persistence.geometry.repository.GeometryRepository
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Component
 import java.util.UUID
@@ -18,41 +16,38 @@ class GeometryQueryAdapter(
   private val queryFactory: JPAQueryFactory,
 ) : GeometryQueryPort {
 
-  override fun findById(geometryId: UUID): Result<Geometry> {
-    return runCatching {
-      val geometryEntity = geometryRepository.findById(geometryId)
-        .orElseThrow { NoSuchElementException("Geometry $geometryId not found") }
+  override fun findById(geometryId: UUID): Result<Geometry> = runCatching {
+    val geometryEntity = geometryRepository.findById(geometryId)
+      .orElseThrow { NoSuchElementException("Geometry $geometryId not found") }
 
-      val vertices = queryVerticesByGeometryId(geometryId)
-        .map { it.toDomain() }
+    val vertices = queryVerticesByGeometryId(geometryId)
+      .map { it.toDomain() }
 
-      val faces = buildFaces(geometryId)
+    val faces = buildFaces(geometryId)
 
-      geometryEntity.toDomain(vertices, faces)
+    geometryEntity.toDomain(vertices, faces)
+  }
+
+
+  override fun findFacesByGeometryId(geometryId: UUID): Result<List<Face>> = runCatching {
+    val faceEntities = queryFacesByGeometryId(geometryId)
+    val faceIds = faceEntities.map { it.id }
+    val faceVertexEntities = queryFaceVerticesByFaceIds(faceIds)
+
+    val faceVertexMap = faceVertexEntities.groupBy { it.faceId }
+
+    faceEntities.map { face ->
+      val vertices = faceVertexMap[face.id]?.map { it.toDomain() } ?: emptyList()
+      face.toDomain(vertices)
     }
   }
 
-  override fun findFacesByGeometryId(geometryId: UUID): Result<List<Face>> {
-    return runCatching {
-      val faceEntities = queryFacesByGeometryId(geometryId)
-      val faceIds = faceEntities.map { it.id }
-      val faceVertexEntities = queryFaceVerticesByFaceIds(faceIds)
 
-      val faceVertexMap = faceVertexEntities.groupBy { it.faceId }
-
-      faceEntities.map { face ->
-        val vertices = faceVertexMap[face.id]?.map { it.toDomain() } ?: emptyList()
-        face.toDomain(vertices)
-      }
-    }
+  override fun findVerticesByGeometryId(geometryId: UUID): Result<List<Vertex>> = runCatching {
+    queryVerticesByGeometryId(geometryId)
+      .map { it.toDomain() }
   }
 
-  override fun findVerticesByGeometryId(geometryId: UUID): Result<List<Vertex>> {
-    return runCatching {
-      queryVerticesByGeometryId(geometryId)
-        .map { it.toDomain() }
-    }
-  }
 
   // ------------------- PRIVATE HELPERS -------------------
 

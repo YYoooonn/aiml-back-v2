@@ -1,4 +1,4 @@
-package org.aiml.geometry.infra.persistence.entity
+package org.aiml.geometry.infra.persistence.geometry.entity
 
 import jakarta.persistence.*
 import org.aiml.geometry.domain.geometry.model.FaceVertex

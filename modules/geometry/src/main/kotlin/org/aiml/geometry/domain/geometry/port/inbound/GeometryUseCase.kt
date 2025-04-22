@@ -9,5 +9,5 @@ interface GeometryUseCase {
   fun create(command: CreateGeometryCommand): Geometry
   fun getById(id: UUID): Geometry
   fun update(command: UpdateGeometryCommand): Geometry
-  fun deleteById(id: UUID): Geometry
+  fun deleteById(id: UUID)
 }

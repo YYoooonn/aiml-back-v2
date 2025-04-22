@@ -6,5 +6,6 @@ import java.util.*
 interface GeometryPersistencePort {
   fun save(geometry: Geometry): Result<Geometry>
   fun findById(id: UUID): Result<Geometry>
+  fun update(geometry: Geometry): Result<Geometry>
   fun deleteById(id: UUID): Result<Unit>
 }

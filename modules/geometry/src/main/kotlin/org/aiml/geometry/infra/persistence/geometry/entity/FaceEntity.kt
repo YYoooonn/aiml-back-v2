@@ -1,4 +1,4 @@
-package org.aiml.geometry.infra.persistence.entity
+package org.aiml.geometry.infra.persistence.geometry.entity
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
