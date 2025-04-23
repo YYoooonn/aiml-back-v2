@@ -12,8 +12,8 @@ enum class ErrorCode(
   val code: String,
   val message: String
 ) {
-  GEO_NOT_FOUND(HttpStatus.NOT_FOUND, "GEO_NOT_FOUND", "geometry를 찾을 수 없습니다."),
-  GEO_UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "GEO_UNKNOWN_ERROR", "알 수 없는 geometry 에러")
+  GEO_NOT_FOUND(HttpStatus.NOT_FOUND, "GEO_NOT_FOUND", "Geometry not found"),
+  GEO_UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "GEO_UNKNOWN_ERROR", "Unknown error from geometry")
 }
 
 class GeometryNotFoundException(message: String? = null) :

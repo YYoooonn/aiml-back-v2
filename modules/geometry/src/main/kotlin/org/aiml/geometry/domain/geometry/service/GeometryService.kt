@@ -12,9 +12,11 @@ import java.util.*
 class GeometryService(
   private val geometryPersistencePort: GeometryPersistencePort
 ) : GeometryUseCase {
-  override fun create(command: CreateGeometryCommand) = geometryPersistencePort
-    .save(Geometry.build(command))
-    .getOrElse { throw GeometryUnknownException("error while creating geometry") }
+  override fun create(command: CreateGeometryCommand): Geometry {
+    return geometryPersistencePort
+      .save(Geometry.build(command))
+      .getOrElse { throw GeometryUnknownException("error while creating geometry") }
+  }
 
   override fun getById(id: UUID): Geometry = geometryPersistencePort
     .findById(id)

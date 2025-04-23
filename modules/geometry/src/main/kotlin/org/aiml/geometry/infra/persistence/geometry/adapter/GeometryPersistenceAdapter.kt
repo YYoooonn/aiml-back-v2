@@ -24,7 +24,6 @@ class GeometryPersistenceAdapter(
     val geoEntity = geometryRepository.save(GeometryEntity.from(geometry))
     val vertices = vertexPersistencePort.saveAll(geometry.vertices, geoEntity.id).getOrThrow()
     val faces = facePersistencePort.saveAll(geometry.faces, geoEntity.id).getOrThrow()
-
     geoEntity.toDomain(vertices, faces)
   }
 

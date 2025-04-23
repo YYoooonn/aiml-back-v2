@@ -11,9 +11,8 @@ import org.aiml.libs.common.entity.BaseEntity
 @Entity
 data class GeometryEntity(
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
-  val id: UUID = UUID.randomUUID(),
+  val id: UUID, // 받아서 사용, vertex face 에서 geometryId를 가지고 있어야 하기에
 
   @Column(nullable = true)
   val name: String? = null,
