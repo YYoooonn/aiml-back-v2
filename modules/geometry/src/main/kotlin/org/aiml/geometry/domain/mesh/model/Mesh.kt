@@ -24,6 +24,7 @@ data class Mesh(
 
   fun update(command: UpdateMeshCommand) = this.copy(
     name = command.name ?: name,
-    transform = command.transform ?: transform
+    transform = transform.update(command.transform)
   )
+
 }

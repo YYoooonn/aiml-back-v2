@@ -1,6 +1,7 @@
 package org.aiml.geometry.domain.mesh.model
 
 import org.aiml.geometry.application.dto.Vector3DTO
+import org.aiml.geometry.domain.mesh.command.UpdateTransformCommand
 
 data class Transform(
   val position: Vector3 = Vector3(),
@@ -13,6 +14,16 @@ data class Transform(
       rotation = Vector3.build(r),
       scale = Vector3.build(s)
     )
+  }
+
+  fun update(command: UpdateTransformCommand?): Transform {
+    if (command == null) return this
+    return this.copy(
+      position = command.position ?: position,
+      rotation = command.rotation ?: rotation,
+      scale = command.scale ?: scale
+    )
+
   }
 }
 

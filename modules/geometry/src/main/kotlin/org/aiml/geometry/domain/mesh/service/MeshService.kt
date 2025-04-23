@@ -26,4 +26,6 @@ class MeshService(
 
   override fun getById(id: UUID) = meshPersistencePort.findById(id)
     .getOrElse { throw GeometryNotFoundException("error while getting mesh") }
+
+  override fun getAll(): List<Mesh> = meshPersistencePort.findAll().getOrThrow()
 }

@@ -9,4 +9,6 @@ interface MeshUseCase {
   fun update(command: UpdateMeshCommand): Mesh
   fun getById(id: UUID): Mesh
   fun deleteById(id: UUID)
+
+  fun getAll(): List<Mesh>
 }

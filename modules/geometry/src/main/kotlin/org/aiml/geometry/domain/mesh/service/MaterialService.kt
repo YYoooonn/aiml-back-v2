@@ -15,11 +15,9 @@ class MaterialService(
 ) : MaterialUseCase {
   override fun create(command: CreateMaterialCommand): Material = materialPersistencePort.save(Material.build(command))
     .getOrElse { throw GeometryUnknownException("error while saving material") }
-
-
+  
   override fun getById(id: UUID): Material = materialPersistencePort.findById(id)
     .getOrElse { throw GeometryNotFoundException("material $id not found") }
-
 
   override fun update(command: UpdateMaterialCommand): Material {
     val mat = materialPersistencePort.findById(command.id)

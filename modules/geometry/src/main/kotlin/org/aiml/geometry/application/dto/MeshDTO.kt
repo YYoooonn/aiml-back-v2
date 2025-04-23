@@ -4,13 +4,22 @@ import org.aiml.geometry.domain.mesh.model.*
 import java.util.*
 
 data class MeshDTO(
-  val id: UUID = UUID.randomUUID(),
+  val id: UUID? = UUID.randomUUID(),
   val name: String? = "",
   val geometry: GeometryDTO,
   val material: MaterialDTO,
   val position: Vector3DTO, // [x,y,z]
-  val rotation: Vector3DTO, // [x,y,z] (radians
+  val rotation: Vector3DTO, // [x,y,z] (radians)
   val scale: Vector3DTO, // [x,y,z]
+)
+
+data class MeshUpdateDTO(
+  val name: String? = "",
+  val geometry: GeometryDTO? = null,
+  val material: MaterialDTO? = null,
+  val position: Vector3DTO? = null, // [x,y,z]
+  val rotation: Vector3DTO? = null, // [x,y,z] (radians)
+  val scale: Vector3DTO? = null, // [x,y,z]
 )
 
 data class GeometryDTO(

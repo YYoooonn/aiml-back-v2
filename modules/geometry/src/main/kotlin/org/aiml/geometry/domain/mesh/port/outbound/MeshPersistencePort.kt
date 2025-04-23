@@ -7,4 +7,5 @@ interface MeshPersistencePort {
   fun save(mesh: Mesh): Result<Mesh>
   fun findById(id: UUID): Result<Mesh>
   fun deleteById(id: UUID): Result<Unit>
+  fun findAll(): Result<List<Mesh>>
 }

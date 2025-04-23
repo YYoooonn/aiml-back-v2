@@ -22,4 +22,8 @@ class MeshPersistenceAdapter(
   override fun deleteById(id: UUID): Result<Unit> = runCatching {
     meshRepository.deleteById(id)
   }
+
+  override fun findAll(): Result<List<Mesh>> = runCatching {
+    meshRepository.findAll().map { it.toDomain() }
+  }
 }

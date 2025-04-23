@@ -19,13 +19,13 @@ class GeometryQueryAdapter(
   override fun findById(geometryId: UUID): Result<Geometry> = runCatching {
     val geometryEntity = geometryRepository.findById(geometryId)
       .orElseThrow { NoSuchElementException("Geometry $geometryId not found") }
-
     val vertices = queryVerticesByGeometryId(geometryId)
       .map { it.toDomain() }
-
     val faces = buildFaces(geometryId)
 
     geometryEntity.toDomain(vertices, faces)
+  }.onFailure {
+    // TODO add logger
   }
 
 
@@ -70,6 +70,7 @@ class GeometryQueryAdapter(
   }
 
   private fun queryFaceVerticesByFaceIds(faceIds: List<Long>): List<FaceVertexEntity> {
+    if (faceIds.isEmpty()) return emptyList()
     val qFaceVertex = QFaceVertexEntity.faceVertexEntity
     return queryFactory
       .selectFrom(qFaceVertex)

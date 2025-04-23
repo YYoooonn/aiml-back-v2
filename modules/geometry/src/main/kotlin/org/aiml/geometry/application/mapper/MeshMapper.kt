@@ -1,10 +1,6 @@
 package org.aiml.geometry.application.mapper
 
-import org.aiml.geometry.application.dto.GeometryDTO
-import org.aiml.geometry.application.dto.MaterialDTO
-import org.aiml.geometry.application.dto.MeshDTO
-import org.aiml.geometry.application.dto.Vector3DTO
-import org.aiml.geometry.domain.geometry.command.*
+import org.aiml.geometry.application.dto.*
 import org.aiml.geometry.domain.geometry.model.*
 import org.aiml.geometry.domain.mesh.command.*
 import org.aiml.geometry.domain.mesh.model.*
@@ -12,22 +8,17 @@ import org.springframework.stereotype.Component
 import java.util.UUID
 
 @Component
-class MeshMapper {
-  fun toCreateGeoCommand(geoDTO: GeometryDTO): CreateGeometryCommand {
-    val geoId = UUID.randomUUID()
-    return CreateGeometryCommand(
-      id = geoId,
-      vertices = toVertices(geoId, geoDTO),
-      faces = toFaces(geoId, geoDTO)
-    )
-  }
+class MeshMapper(
+  private val geoMapper: GeometryMapper,
+  private val matMapper: MaterialMapper
+) {
+  fun toGeoCreateCommand(geoDTO: GeometryDTO) = geoMapper.toCreateCommand(geoDTO)
 
-  fun toCreateMatCommand(matDTO: MaterialDTO) = CreateMaterialCommand(
-    color = matDTO.color,
-    opacity = matDTO.opacity,
-    transparent = matDTO.transparent,
-    textureMapUrl = matDTO.map
-  )
+  fun toGeoUpdateCommand(geoDTO: GeometryDTO, geoId: UUID) = geoMapper.toUpdateCommand(geoDTO, geoId)
+
+  fun toMatCreateCommand(matDTO: MaterialDTO) = matMapper.toCreateMatCommand(matDTO)
+
+  fun toMatUpdateCommand(matDTO: MaterialDTO, matId: UUID) = matMapper.toUpdateMatCommand(matDTO, matId)
 
   fun toCreateMeshCommand(meshDTO: MeshDTO, geoId: UUID, matId: UUID) = CreateMeshCommand(
     geometryId = geoId,
@@ -35,6 +26,14 @@ class MeshMapper {
     name = meshDTO.name,
     transform = Transform.build(meshDTO.position, meshDTO.rotation, meshDTO.scale)
   )
+
+  fun toUpdateMeshCommand(meshUpdateDTO: MeshUpdateDTO, id: UUID): UpdateMeshCommand {
+    return UpdateMeshCommand(
+      id = id,
+      name = meshUpdateDTO.name,
+      transform = toUpdateTransformCommand(meshUpdateDTO)
+    )
+  }
 
   fun toMeshDTO(mesh: Mesh, geo: Geometry, mat: Material) = MeshDTO(
     id = mesh.id,
@@ -47,6 +46,14 @@ class MeshMapper {
   )
 
   // ------------------- PRIVATE HELPERS -------------------
+
+  private fun toUpdateTransformCommand(dto: MeshUpdateDTO): UpdateTransformCommand {
+    return UpdateTransformCommand(
+      position = dto.position?.let(::toVector3),
+      rotation = dto.rotation?.let(::toVector3),
+      scale = dto.scale?.let(::toVector3)
+    )
+  }
 
   private fun toMatDTO(mat: Material) = MaterialDTO(
     color = mat.color,
@@ -62,24 +69,5 @@ class MeshMapper {
     }
   )
 
-
-  private fun toVertices(geoId: UUID, geoDTO: GeometryDTO) =
-    geoDTO.vertices.mapIndexed { index, v ->
-      CreateVertexCommand(
-        geometryId = geoId,
-        index = index,
-        vector = v
-      )
-    }.map { Vertex.build(it) }
-
-
-  private fun toFaces(geoId: UUID, geoDTO: GeometryDTO) =
-    geoDTO.faces.mapIndexed { index, indices ->
-      CreateFaceCommand(
-        geometryId = geoId,
-        index = index,
-        indices = indices
-      )
-    }.map { Face.build(it) }
-
+  private fun toVector3(input: Vector3DTO) = Vector3(input.x, input.y, input.z)
 }
