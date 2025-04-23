@@ -76,19 +76,3 @@ subprojects {
     enabled = true
   }
 }
-
-tasks.register<Copy>("copyApiJar") {
-//  doLast {}
-  duplicatesStrategy = DuplicatesStrategy.INCLUDE // 중복 발생 시 덮어쓰기
-  dependsOn(":apps:api:bootJar")
-
-  from("$rootDir/apps/api/build/libs") {
-    include("*.jar")
-  }
-  into("$rootDir/build/libs")
-  rename { "app.jar" } // 항상 동일한 이름으로 복사
-}
-
-tasks.getByName("build") {
-  finalizedBy("copyApiJar")
-}
