@@ -7,9 +7,10 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class GeometryQuerydslConfig {
-  @PersistenceContext(name = "geometryPersistenceUnit")
-  lateinit var entityManager: EntityManager
+class GeometryQuerydslConfig(
+  @PersistenceContext(unitName = "geometryPersistenceUnit")
+  val entityManager: EntityManager
+) {
 
   @Bean(name = ["geometryQueryFactory"])
   fun jpaQueryFactory(): JPAQueryFactory {
