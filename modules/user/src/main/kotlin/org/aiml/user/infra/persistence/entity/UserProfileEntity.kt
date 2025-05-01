@@ -11,9 +11,8 @@ data class UserProfileEntity(
   @Id
   val id: UUID = UUID.randomUUID(),
 
-  @OneToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", nullable = false, unique = true)
-  val user: UserEntity,
+  @Column(nullable = false, unique = true)
+  val userId: UUID,
 
   val firstName: String? = null,
 
@@ -25,21 +24,21 @@ data class UserProfileEntity(
 
   ) : BaseEntity() {
   companion object {
-    fun from(domain: UserProfile, userEntity: UserEntity): UserProfileEntity {
+    fun from(domain: UserProfile): UserProfileEntity {
       return UserProfileEntity(
         id = domain.id,
         bio = domain.bio,
         imageUrl = domain.imageUrl,
         firstName = domain.firstName,
         lastName = domain.lastName,
-        user = userEntity,
+        userId = domain.userId,
       )
     }
   }
 
   fun toDomain(): UserProfile {
     return UserProfile(
-      id = id,
+      userId = userId,
       bio = bio,
       imageUrl = imageUrl,
       firstName = firstName,

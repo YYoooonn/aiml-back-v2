@@ -29,6 +29,8 @@ data class ProjectUser(
   }
 }
 
-enum class ProjectUserRole {
-  OWNER, VIEWER, EDITOR
+enum class ProjectUserRole(val level: Int) {
+  OWNER(3), EDITOR(2), VIEWER(1);
+
+  fun hasPermission(required: ProjectUserRole): Boolean = level >= required.level
 }

@@ -7,12 +7,12 @@ open class AuthException(val errorCode: ErrorCode) : RuntimeException(errorCode.
 
 enum class ErrorCode(
   val httpStatus: HttpStatus,
-  val code: String,
-  val message: String
+  val message: String,
+  val code: Int = 500, // TODO specify error code
 ) {
-  TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "TOKEN_INVALID", "토큰이 유효하지 않습니다"),
-  TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "TOKEN_EXPIRED", "토큰이 만료되었습니다."),
-  AUTH_UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "AUTH_UNKNOWN_ERROR", "알 수 없는 인증 에러")
+  TOKEN_INVALID(HttpStatus.UNAUTHORIZED, "Token Invalid"),
+  TOKEN_EXPIRED(HttpStatus.UNAUTHORIZED, "Token Expired"),
+  AUTH_UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Unknown Authentication Error")
 }
 
 class InvalidTokenException(message: String?) : AuthException(ErrorCode.TOKEN_INVALID)

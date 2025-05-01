@@ -1,28 +1,56 @@
 package org.aiml.user.application
 
-import org.aiml.user.infra.security.CustomUserPrincipal
-import org.aiml.user.domain.model.User
-import java.util.UUID
+import jakarta.transaction.Transactional
+import org.aiml.user.application.dto.*
+import org.aiml.user.exception.UserNotFoundException
+import org.aiml.user.domain.port.inbound.*
+import org.springframework.stereotype.Service
+import java.util.*
 
-interface UserServiceFacade {
+@Service
+class UserServiceFacade(
+  private val userCoreCommandService: UserCoreCommandService,
+  private val userCoreQueryService: UserCoreQueryService,
+  private val userProfileCommandService: UserProfileCommandService,
+  private val userProfileQueryService: UserProfileQueryService,
+) {
 
-  fun register(command: RegisterCommand): Result<UserDTO>
-  fun getUserCore(username: String): Result<User>
-  fun getUserCore(userId: UUID): Result<User>
-  fun getProfile(username: String): Result<UserDTO>
+  @Transactional
+  fun register(dto: UserDTO): UserDTO {
+    val core = userCoreCommandService.create(dto.toUserCore())
+    val profile = userProfileCommandService.create(dto.toUserProfile())
+    return UserDTO.from(core, profile)
+  }
 
-  // with authentication
-  fun delete(principal: CustomUserPrincipal): Result<Unit>
-  fun getUser(principal: CustomUserPrincipal): Result<UserDTO>
-  fun getProfile(principal: CustomUserPrincipal): Result<UserDTO>
+  @Transactional
+  fun delete(id: UUID) {
+    userCoreCommandService.delete(id)
+    userProfileCommandService.deleteByUserId(id)
+  }
 
-  // core update, needs to revalidate token
-  fun updateUser(principal: CustomUserPrincipal, command: UpdateCommand): Result<UserDTO>
+  @Transactional
+  fun updateUser(dto: UserDTO): UserDTO {
+    val core = userCoreCommandService.update(dto.toUserCore())
+    val profile = userProfileCommandService.update(dto.toUserProfile())
+    return UserDTO.from(core, profile)
+  }
 
-  // profile update, no need to revalidate token
-  fun updateUserProfile(principal: CustomUserPrincipal, command: UpdateCommand): Result<UserDTO>
+  // query
+  fun getUserInfo(userId: UUID): UserDTO {
+    val core = userCoreQueryService.findById(userId)
+    val profile = userProfileQueryService.findByUserId(userId)
+      ?: throw UserNotFoundException("profile not found")
+    return UserDTO.from(core, profile)
+  }
 
-  // for admin
-  fun getUsers(): Result<List<User>>
-  fun getProfiles(): Result<List<UserDTO>>
+  // for test
+  fun getAllUsers(): List<UserDTO> {
+    val cores = userCoreQueryService.findAll()
+    val profileMap = userProfileQueryService.findAll().associateBy { it.userId }
+    return cores.map { core ->
+      val profile = profileMap[core.id] ?: throw UserNotFoundException("profile not found")
+      UserDTO.from(core, profile)
+    }
+  }
+
 }

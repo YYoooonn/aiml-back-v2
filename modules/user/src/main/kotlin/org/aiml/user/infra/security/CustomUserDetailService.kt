@@ -1,6 +1,6 @@
 package org.aiml.user.infra.security
 
-import org.aiml.user.domain.exception.UserNotFoundException
+import org.aiml.user.exception.UserNotFoundException
 import org.aiml.user.domain.port.outbound.UserCorePersistencePort
 import org.springframework.context.annotation.Lazy
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -14,7 +14,7 @@ class CustomUserDetailsService(
 ) : UserDetailsService {
 
   override fun loadUserByUsername(username: String): UserDetails {
-    val user = userRepository.findByUsername(username)
+    val user = userRepository.findByUsername(username).getOrThrow()
       ?: throw UserNotFoundException("User not found")
 
     return CustomUserPrincipal(

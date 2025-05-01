@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    mysql:
+      url: jdbc:mysql://mysql-db:3306/test_db
+      username: test
+      password: test
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    postgres:
+      url: jdbc:postgresql://postgres-db:5432/test_db
+      username: test
+      password: test
+      driver-class-name: org.postgresql.Driver
+
+  jpa:
+    mysql:
+      hibernate:
+        ddl-auto: create-drop
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQLDialect
+      show-sql: true
+
+    postgres:
+      hibernate:
+        ddl-auto: create-drop
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+      show-sql: true

@@ -21,10 +21,7 @@ data class UserEntity(
   val email: String,
 
   @Enumerated(EnumType.STRING)
-  val role: User.Role? = User.Role.USER,
-
-  @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-  val profile: UserProfileEntity? = null
+  val role: User.Role? = User.Role.USER
 
 ) : BaseEntity() {
   companion object {
@@ -46,7 +43,8 @@ data class UserEntity(
       encryptedPassword = password,
       email = email,
       role = role,
-      createdAt = createdAt
+      createdAt = createdAt,
+      updatedAt = updatedAt,
     )
   }
 

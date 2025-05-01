@@ -1,15 +1,15 @@
 package org.aiml.user.domain.port.outbound
 
 import org.aiml.user.domain.model.UserProfile
-import org.aiml.user.domain.model.User
 import java.util.UUID
 
 interface UserProfilePersistencePort {
-  fun save(profile: UserProfile, user: User): UserProfile?
-  fun delete(userId: UUID)
-  fun findByUserId(userId: UUID): UserProfile?
-  fun update(userProfile: UserProfile): UserProfile?
+  fun save(profile: UserProfile): Result<UserProfile>
+  fun deleteByUserId(userId: UUID): Result<Unit>
 
-  fun findByUsername(username: String): UserProfile?
-  fun findByUser(user: User): UserProfile?
+  // fun update(userProfile: UserProfile): Result<UserProfile>
+
+  fun findAll(): Result<List<UserProfile>>
+  fun findByUserId(userId: UUID): Result<UserProfile?>
+//  fun findByUsername(username: String): Result<UserProfile?>
 }

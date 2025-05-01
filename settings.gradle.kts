@@ -10,9 +10,9 @@ include(
   "libs:common",
   "modules:user",
   "modules:project",
-  "modules:geometry",
   "modules:project-user",
-  "modules:scene"
+  "modules:scene",
+  "modules:object3d"
 )
 
 pluginManagement {

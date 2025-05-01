@@ -36,6 +36,16 @@ port inbound (usecase 3)
 ```
 
 ```bash
+project-user -> project
+             -> user
+
+scene        -> object3d
+             -> auth) project-user
+
+object3d     -> auth) project-user
+```
+
+```bash
 # format
 ./gradlew ktlintFormat
 

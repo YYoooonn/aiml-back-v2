@@ -1,38 +1,29 @@
 package org.aiml.api.security
 
-import org.aiml.api.dto.LoginRequest
-import org.aiml.api.dto.LoginResponse
-import org.aiml.api.dto.ReissueRequest
-import org.aiml.api.dto.ReissueResponse
+import org.aiml.api.dto.auth.LoginRequest
+import org.aiml.api.dto.auth.LoginResponse
+import org.aiml.api.dto.auth.ReissueRequest
+import org.aiml.api.dto.auth.ReissueResponse
 import org.aiml.api.security.exception.InvalidTokenException
 import org.aiml.libs.common.security.jwt.JwtTokenProvider
-import org.aiml.user.domain.exception.UserNotFoundException
-import org.aiml.user.application.UserServiceFacade
+import org.aiml.user.exception.UserNotFoundException
+import org.aiml.user.domain.port.inbound.UserCoreQueryService
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
 class AuthService(
-  private val userServiceFacade: UserServiceFacade,
+  private val userCoreQueryService: UserCoreQueryService,
   private val passwordEncoder: PasswordEncoder,
   private val jwtTokenProvider: JwtTokenProvider
 ) {
-//    fun signup(command: SignupCommand): Result<User> {
-//        // user service 에서 encoding
-//        // val encryptedPassword = passwordEncoder.encode(command.password)
-//        val user = userUseCase.register(command.toRegisterCommand())
-//        return user
-//    }
 
   fun login(request: LoginRequest): LoginResponse {
-    val result = userServiceFacade.getUserCore(request.username)
-    if (result.isFailure) {
-      throw UserNotFoundException("User ${request.username} not found")
-    }
+    val user = userCoreQueryService.findByUsername(request.username)
+      ?: throw UserNotFoundException("User ${request.username} not found")
 
-    val user = result.getOrThrow()
-    if (!passwordEncoder.matches(request.password, user.encryptedPassword)) {
+    if (!passwordEncoder.matches(request.password, user.password)) {
       throw IllegalArgumentException("Password not match")
     }
     val accessToken = jwtTokenProvider.generateAccessToken(user.id, user.username)
@@ -58,7 +49,7 @@ class AuthService(
       )
     } else {
       val userId = UUID.fromString(jwtTokenProvider.getUserIdFromToken(refreshToken))
-      val result = userServiceFacade.getUserCore(userId).getOrThrow()
+      val result = userCoreQueryService.findById(userId)
       val aToken = jwtTokenProvider.generateAccessToken(userId, result.username)
       val rToken = jwtTokenProvider.generateRefreshToken(userId, result.username)
       return ReissueResponse(aToken, rToken)

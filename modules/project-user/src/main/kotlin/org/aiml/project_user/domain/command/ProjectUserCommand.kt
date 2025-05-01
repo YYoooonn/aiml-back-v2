@@ -3,6 +3,8 @@ package org.aiml.project_user.domain.command
 import org.aiml.project_user.domain.model.ProjectUserRole
 import java.util.*
 
+
+// TODO move mapping to dto
 data class ProjectUserCommand(
   val projectId: UUID,
   val userId: UUID,
