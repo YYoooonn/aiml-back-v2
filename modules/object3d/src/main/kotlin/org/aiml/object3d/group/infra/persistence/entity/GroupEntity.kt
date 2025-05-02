@@ -8,7 +8,7 @@ import org.aiml.object3d.base.infra.persistence.entity.TransformEmbeddable
 import java.util.*
 
 @Entity
-@Table(name = "group")
+@Table(name = "object3d_groups")
 data class GroupEntity(
   @Id
   override val id: UUID = UUID.randomUUID(),

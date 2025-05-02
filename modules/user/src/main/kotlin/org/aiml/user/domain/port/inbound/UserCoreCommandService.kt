@@ -7,4 +7,6 @@ interface UserCoreCommandService {
   fun create(user: UserCoreDTO): UserCoreDTO
   fun update(user: UserCoreDTO): UserCoreDTO
   fun delete(id: UUID)
+
+  fun deleteAll()
 }

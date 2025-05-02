@@ -44,4 +44,8 @@ class ProjectUserCommandAdapter(
       projectUserRepository.deleteAllByProjectId(projectId)
     }
   }
+
+  override fun deleteAll(): Result<Unit> = runCatching {
+    projectUserRepository.deleteAll()
+  }
 }

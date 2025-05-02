@@ -10,4 +10,6 @@ interface MaterialCommandPort {
   fun deleteByMeshId(id: UUID): Result<Unit>
 
   fun deleteAllByMeshIds(meshIds: List<UUID>): Result<Unit>
+
+  fun deleteAll(): Result<Unit>
 }

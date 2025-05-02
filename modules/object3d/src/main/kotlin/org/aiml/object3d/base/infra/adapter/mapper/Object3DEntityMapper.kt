@@ -6,9 +6,11 @@ import org.aiml.object3d.base.domain.model.Object3D
 import org.aiml.object3d.base.infra.persistence.entity.Object3DEntity
 import org.springframework.stereotype.Component
 
+import org.aiml.libs.infra.postgres.BeanNames
+
 @Component
 class Object3DEntityMapper(
-  @PersistenceContext(unitName = "object3DPersistenceUnit")
+  @PersistenceContext(unitName = BeanNames.PERSISTENCE_UNIT)
   private val entityManager: EntityManager
 ) {
   /**

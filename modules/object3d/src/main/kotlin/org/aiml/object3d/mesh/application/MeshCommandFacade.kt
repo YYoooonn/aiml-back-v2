@@ -13,6 +13,12 @@ class MeshCommandFacade(
 ) {
   fun deleteBySceneId(sceneId: UUID) {
     val meshIds = meshQueryPort.findBySceneId(sceneId).getOrThrow().map { it.id }.distinct()
-    meshCommandService.deleteAllByIds(meshIds)
+    return meshCommandService.deleteAllByIds(meshIds)
   }
+
+
+  fun deleteAll() {
+    return meshCommandService.deleteAll()
+  }
+
 }

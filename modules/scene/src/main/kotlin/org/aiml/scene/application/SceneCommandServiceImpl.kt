@@ -34,4 +34,8 @@ class SceneCommandServiceImpl(
     scenePersistencePort.deleteByProjectId(projectId).getOrThrow()
   }
 
+  override fun deleteAll() {
+    scenePersistencePort.deleteAll().getOrThrow()
+  }
+
 }

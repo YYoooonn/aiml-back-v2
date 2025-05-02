@@ -8,4 +8,6 @@ interface ProjectUserQueryPort {
   fun findByProjectId(projectId: UUID): Result<List<ProjectUser>>
   fun findByUserId(userId: UUID): Result<List<ProjectUser>>
   fun findByProjectIdAndUserId(projectId: UUID, userId: UUID): Result<ProjectUser>
+
+  fun findAll(): Result<List<ProjectUser>>
 }

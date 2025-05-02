@@ -42,15 +42,4 @@ class UserServiceFacade(
       ?: throw UserNotFoundException("profile not found")
     return UserDTO.from(core, profile)
   }
-
-  // for test
-  fun getAllUsers(): List<UserDTO> {
-    val cores = userCoreQueryService.findAll()
-    val profileMap = userProfileQueryService.findAll().associateBy { it.userId }
-    return cores.map { core ->
-      val profile = profileMap[core.id] ?: throw UserNotFoundException("profile not found")
-      UserDTO.from(core, profile)
-    }
-  }
-
 }

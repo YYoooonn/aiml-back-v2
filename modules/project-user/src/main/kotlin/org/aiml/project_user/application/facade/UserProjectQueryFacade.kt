@@ -10,14 +10,13 @@ import java.util.*
 // project-user 를 통한 인증
 
 @Service
-class ProjectQueryFacade(
+class UserProjectQueryFacade(
   private val projectQueryService: ProjectQueryService,
   private val projectUserQueryService: ProjectUserQueryService,
   private val authService: ProjectUserAuthService
 ) {
   fun loadProjects(userId: UUID): List<ProjectDTO> {
     val pIds = projectUserQueryService.findProjectsByUserId(userId)
-      .getOrThrow()
       .map { it.projectId }
     return projectQueryService.findByIds(pIds)
   }

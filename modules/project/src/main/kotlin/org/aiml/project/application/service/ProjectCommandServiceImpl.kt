@@ -23,7 +23,15 @@ class ProjectCommandServiceImpl(
     return ProjectDTO.from(updated)
   }
 
-  override fun delete(projectId: UUID) {
+  override fun deleteById(projectId: UUID) {
     projectPersistencePort.delete(projectId).getOrThrow()
+  }
+
+  override fun deleteByIds(ids: List<UUID>) {
+    projectPersistencePort.deleteByIds(ids).getOrThrow()
+  }
+
+  override fun deleteAll() {
+    return projectPersistencePort.deleteAll().getOrThrow()
   }
 }

@@ -1,11 +1,17 @@
 package org.aiml.api.dto.auth
 
-data class LoginResponse(
-  val accessToken: String,
-  val refreshToken: String
-)
+import org.aiml.api.features.auth.domain.AuthTokens
 
-data class ReissueResponse(
+data class TokenResponse(
   val accessToken: String,
   val refreshToken: String? = null
-)
+) {
+  companion object {
+    fun from(authTokens: AuthTokens): TokenResponse {
+      return TokenResponse(
+        accessToken = authTokens.accessToken,
+        refreshToken = authTokens.refreshToken
+      )
+    }
+  }
+}

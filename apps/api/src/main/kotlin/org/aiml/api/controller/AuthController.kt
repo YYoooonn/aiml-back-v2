@@ -3,7 +3,7 @@ package org.aiml.api.controller
 import org.aiml.api.dto.auth.*
 import org.aiml.api.dto.user.*
 import org.aiml.api.common.response.*
-import org.aiml.api.security.AuthService
+import org.aiml.api.features.auth.service.AuthService
 import org.aiml.user.application.UserServiceFacade
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -22,15 +22,14 @@ class AuthController(
   }
 
   @PostMapping("/login")
-  fun login(@RequestBody request: LoginRequest): ResponseEntity<ApiResponse<LoginResponse>> {
-    val tokens = authService.login(request)
-    return ok(tokens)
+  fun login(@RequestBody request: LoginRequest): ResponseEntity<ApiResponse<TokenResponse>> {
+    val tokens = authService.login(request.username, request.password)
+    return ok(TokenResponse.from(tokens))
   }
 
   @PostMapping("/reissue")
-  fun reissue(@RequestBody request: ReissueRequest): ResponseEntity<ApiResponse<ReissueResponse>> {
-    val reissued = authService.reissue(request)
-    return ok(reissued)
+  fun reissue(@RequestBody request: ReissueRequest): ResponseEntity<ApiResponse<TokenResponse>> {
+    val reissued = authService.reissue(request.refreshToken)
+    return ok(TokenResponse.from(reissued))
   }
-
 }

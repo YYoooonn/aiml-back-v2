@@ -8,6 +8,7 @@ include(
   "apps:api",
   "apps:batch",
   "libs:common",
+  "libs:infra",
   "modules:user",
   "modules:project",
   "modules:project-user",

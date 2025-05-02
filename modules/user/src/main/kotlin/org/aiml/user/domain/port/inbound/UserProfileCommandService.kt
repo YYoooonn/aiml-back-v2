@@ -7,4 +7,6 @@ interface UserProfileCommandService {
   fun create(dto: UserProfileDTO): UserProfileDTO
   fun update(dto: UserProfileDTO): UserProfileDTO
   fun deleteByUserId(userId: UUID)
+
+  fun deleteAll()
 }

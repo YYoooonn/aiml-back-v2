@@ -29,9 +29,13 @@ class Object3DCommandFacade(
   }
 
   fun update(children: List<Object3DDTO>): List<Object3DDTO> {
-    
-
     TODO()
+  }
+
+  
+  fun deleteAll() {
+    meshCommandFacade.deleteAll()
+    object3DCommandPort.deleteAll().getOrThrow()
   }
 
 

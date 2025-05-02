@@ -1,5 +1,6 @@
 package org.aiml.scene.application.facade
 
+import org.aiml.object3d.base.application.dto.Object3DDTO
 import org.aiml.object3d.base.application.facade.Object3DQueryFacade
 import org.aiml.project_user.application.ProjectUserAuthService
 import org.aiml.scene.application.dto.SceneDTO
@@ -17,7 +18,7 @@ class SceneQueryFacade(
     val scene = sceneQueryService.findById(sceneId)
     authService.authenticateViewer(userId, scene.projectId)
 
-    val children = object3DQueryFacade.getObjectTree(sceneId)
+    val children = loadObjectTree(scene.id)
     return scene.addChildren(children)
   }
 
@@ -25,6 +26,10 @@ class SceneQueryFacade(
     authService.authenticateViewer(userId, projectId)
     val scenes = sceneQueryService.findByProjectId(projectId)
     if (scenes.isEmpty()) return emptyList()
-    return scenes.map { loadScene(userId, it.id) }
+    return scenes.map { it.addChildren(loadObjectTree(it.id)) }
+  }
+
+  private fun loadObjectTree(sceneId: UUID): List<Object3DDTO> {
+    return object3DQueryFacade.getObjectTree(sceneId)
   }
 }

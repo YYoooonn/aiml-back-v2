@@ -4,7 +4,7 @@ import org.aiml.api.common.response.*
 import org.aiml.api.dto.project.*
 import org.aiml.api.dto.scene.*
 import org.aiml.project_user.application.facade.ProjectCommandFacade
-import org.aiml.project_user.application.facade.ProjectQueryFacade
+import org.aiml.project_user.application.facade.UserProjectQueryFacade
 import org.aiml.scene.application.facade.SceneCommandFacade
 import org.aiml.scene.application.facade.SceneQueryFacade
 import org.aiml.user.infra.security.CustomUserPrincipal
@@ -17,7 +17,7 @@ import java.util.*
 @RequestMapping("/api/project")
 class ProjectController(
   private val projectCommandFacade: ProjectCommandFacade,
-  private val projectQueryFacade: ProjectQueryFacade,
+  private val userProjectQueryFacade: UserProjectQueryFacade,
   private val sceneCommandFacade: SceneCommandFacade,
   private val sceneQueryFacade: SceneQueryFacade,
 ) {
@@ -26,7 +26,7 @@ class ProjectController(
   fun getProjects(
     @AuthenticationPrincipal principal: CustomUserPrincipal
   ): ResponseEntity<ApiResponse<List<ProjectBaseResponse>>> {
-    val pInfos = projectQueryFacade.loadProjects(principal.userId)
+    val pInfos = userProjectQueryFacade.loadProjects(principal.userId)
     return ok(pInfos.map { ProjectBaseResponse.from(it) })
   }
 
@@ -46,7 +46,7 @@ class ProjectController(
     @AuthenticationPrincipal principal: CustomUserPrincipal,
     @PathVariable("projectId") projectId: UUID
   ): ResponseEntity<ApiResponse<ProjectBaseResponse>> {
-    val pInfo = projectQueryFacade.loadProjectById(principal.userId, projectId)
+    val pInfo = userProjectQueryFacade.loadProjectById(principal.userId, projectId)
     return ok(ProjectBaseResponse.from(pInfo))
   }
 
@@ -56,7 +56,7 @@ class ProjectController(
     @PathVariable("projectId") projectId: UUID,
     @RequestBody request: ProjectRequest
   ): ResponseEntity<ApiResponse<ProjectBaseResponse>> {
-    val pInfo = projectCommandFacade.updateProject(principal.userId, request.toDTO())
+    val pInfo = projectCommandFacade.updateProject(principal.userId, request.toDTO(projectId))
     return ok(ProjectBaseResponse.from(pInfo))
   }
 

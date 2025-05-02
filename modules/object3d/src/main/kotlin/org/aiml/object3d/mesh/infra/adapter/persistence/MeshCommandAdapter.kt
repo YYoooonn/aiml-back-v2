@@ -58,4 +58,8 @@ class MeshCommandAdapter(
     meshRepository.deleteAllById(ids)
   }
 
+
+  override fun deleteAll(): Result<Unit> = runCatching {
+    meshRepository.deleteAll()
+  }
 }

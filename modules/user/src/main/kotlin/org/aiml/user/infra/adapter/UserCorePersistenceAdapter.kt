@@ -38,7 +38,7 @@ class UserCorePersistenceAdapter(
   override fun findByUsername(username: String): Result<User?> = runCatching {
     userCoreRepository.findByUsername(username)?.toDomain()
   }
-  
+
   override fun findAll(): Result<List<User>> = runCatching {
     userCoreRepository.findAll().map { it.toDomain() }
   }
@@ -56,5 +56,8 @@ class UserCorePersistenceAdapter(
     return userCoreRepository.existsByEmail(email)
   }
 
+  override fun deleteAll(): Result<Unit> = runCatching {
+    userCoreRepository.deleteAll()
+  }
 
 }

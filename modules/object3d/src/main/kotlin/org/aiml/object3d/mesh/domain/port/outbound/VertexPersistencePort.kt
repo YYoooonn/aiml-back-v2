@@ -7,4 +7,6 @@ interface VertexPersistencePort {
   fun saveAll(vertices: List<Vertex>, geoId: UUID): Result<List<Vertex>>
   fun deleteByGeometryId(geometryId: UUID): Result<Unit>
   fun deleteByGeometryIds(geometryIds: List<UUID>): Result<Unit>
+
+  fun deleteAll(): Result<Unit>
 }

@@ -50,6 +50,7 @@ class FacePersistenceAdapter(
     faceRepository.deleteAllByGeometryIdIn(geoIds)
   }
 
+
   private fun findFaceIds(geoId: UUID): List<Long> {
     return faceRepository.findAllByGeometryId(geoId)
       .map { it.id }
@@ -58,5 +59,11 @@ class FacePersistenceAdapter(
   private fun findFaceIds(geoIds: List<UUID>): List<Long> {
     return faceRepository.findAllByGeometryIdIn(geoIds).map { it.id }
   }
-  
+
+
+  override fun deleteAll(): Result<Unit> = runCatching {
+    faceRepository.deleteAll()
+  }
+
+
 }

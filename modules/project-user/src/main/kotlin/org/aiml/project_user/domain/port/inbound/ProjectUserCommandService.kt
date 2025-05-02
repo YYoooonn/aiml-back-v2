@@ -1,8 +1,6 @@
 package org.aiml.project_user.domain.port.inbound
 
 import org.aiml.project_user.application.dto.ProjectUserDTO
-import org.aiml.project_user.domain.command.ProjectUserCommand
-import org.aiml.project_user.domain.model.ProjectUser
 import java.util.*
 
 interface ProjectUserCommandService {
@@ -10,5 +8,7 @@ interface ProjectUserCommandService {
   fun update(dto: ProjectUserDTO): ProjectUserDTO
   fun delete(projectId: UUID, userId: UUID)
   fun deleteAllByProjectId(projectId: UUID)
-//  fun deleteAllByUserId(userId: UUID)
+  fun deleteAllByUserId(userId: UUID)
+
+  fun deleteAll()
 }

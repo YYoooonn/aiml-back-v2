@@ -31,7 +31,7 @@ class ProjectCommandFacade(
   @Transactional
   fun deleteProject(userId: UUID, projectId: UUID) {
     authService.authenticateOwner(userId, projectId)
-    projectCommandService.delete(projectId)
+    projectCommandService.deleteById(projectId)
     projectUserCommandService.deleteAllByProjectId(projectId)
   }
 }

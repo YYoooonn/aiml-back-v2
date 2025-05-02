@@ -33,18 +33,23 @@ class GeometryCommandAdapter(
   override fun deleteById(id: UUID) {
     facePersistencePort.deleteByGeometryId(id).getOrThrow()
     vertexPersistencePort.deleteByGeometryId(id).getOrThrow()
-    geometryRepository.deleteById(id)
+    return geometryRepository.deleteById(id)
   }
 
   override fun deleteByMeshId(id: UUID) {
     val entity = geometryRepository.findByMeshId(id)
       .getOrElse { throw RuntimeException("no geometry found for meshId $id") }
-    deleteById(entity.id)
+    return deleteById(entity.id)
   }
 
   override fun deleteAllByMeshIds(ids: List<UUID>) {
     TODO("Not yet implemented")
   }
 
+  override fun deleteAll() {
+    geometryRepository.deleteAll()
+    vertexPersistencePort.deleteAll()
+    facePersistencePort.deleteAll()
+  }
 
 }

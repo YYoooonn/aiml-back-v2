@@ -2,6 +2,8 @@ package org.aiml.api.controller
 
 import org.aiml.api.dto.user.*
 import org.aiml.api.common.response.*
+import org.aiml.project_user.application.facade.UserProjectCommandFacade
+import org.aiml.scene.application.facade.SceneCommandFacade
 import org.aiml.user.infra.security.CustomUserPrincipal
 import org.aiml.user.application.UserServiceFacade
 import org.aiml.user.domain.port.inbound.UserCoreCommandService
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/user")
 class UserController(
   private val userServiceFacade: UserServiceFacade,
-  private val userCoreCommandService: UserCoreCommandService
+  private val userCoreCommandService: UserCoreCommandService,
+  private val userProjectCommandFacade: UserProjectCommandFacade,
+  private val sceneCommandFacade: SceneCommandFacade
 ) {
   @GetMapping("/me")
   fun getUser(
@@ -37,7 +41,8 @@ class UserController(
   fun deleteUser(
     @AuthenticationPrincipal principal: CustomUserPrincipal,
   ): ResponseEntity<ApiResponse<Void>> {
-    userServiceFacade.delete(principal.userId)
+    userProjectCommandFacade.deleteByUserId(principal.userId)
+    sceneCommandFacade.deleteByUserId(principal.userId)
     return deleted()
   }
 }

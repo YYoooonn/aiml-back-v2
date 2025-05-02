@@ -7,5 +7,4 @@ data class LoginRequest(
 
 data class ReissueRequest(
   val refreshToken: String,
-  val revalidate: Boolean? = false
 )

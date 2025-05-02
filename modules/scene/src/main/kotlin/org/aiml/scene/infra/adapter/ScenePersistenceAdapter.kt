@@ -15,6 +15,10 @@ class ScenePersistenceAdapter(
     sceneRepository.findById(id).get().toDomain()
   }
 
+  override fun findByProjectIds(projectIds: List<UUID>): Result<List<Scene>> = runCatching {
+    sceneRepository.findAllByProjectIdIn(projectIds).map { it.toDomain() }
+  }
+
   override fun save(scene: Scene): Result<Scene> = runCatching {
     sceneRepository.save(SceneEntity.from(scene)).toDomain()
   }
@@ -35,6 +39,10 @@ class ScenePersistenceAdapter(
 
   override fun deleteByProjectId(projectId: UUID): Result<Unit> = runCatching {
     sceneRepository.deleteAllByProjectId(projectId)
+  }
+
+  override fun deleteAll(): Result<Unit> = runCatching {
+    sceneRepository.deleteAll()
   }
 
 }

@@ -21,6 +21,10 @@ class ProjectPersistenceAdapter(
     projectRepository.deleteById(id)
   }
 
+  override fun deleteByIds(ids: List<UUID>): Result<Unit> = runCatching {
+    projectRepository.deleteAllById(ids)
+  }
+
   override fun findById(id: UUID): Result<Project> = runCatching {
     projectRepository.findById(id).get().toDomain()
   }
@@ -35,5 +39,9 @@ class ProjectPersistenceAdapter(
 
   override fun existsById(id: UUID): Boolean {
     return projectRepository.existsById(id)
+  }
+
+  override fun deleteAll(): Result<Unit> = runCatching {
+    projectRepository.deleteAll()
   }
 }

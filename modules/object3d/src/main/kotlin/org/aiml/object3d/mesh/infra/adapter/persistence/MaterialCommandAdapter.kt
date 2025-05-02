@@ -31,4 +31,8 @@ class MaterialCommandAdapter(
     materialRepository.deleteAllByMeshIdIn(meshIds)
   }
 
+  override fun deleteAll(): Result<Unit> = runCatching {
+    materialRepository.deleteAll()
+  }
+
 }

@@ -5,6 +5,7 @@ apply(plugin = "org.jetbrains.kotlin.plugin.noarg")
 
 dependencies {
   implementation(project(":libs:common"))
+  implementation(project(":libs:infra"))
   implementation(project(":modules:project-user"))
   implementation(project(":modules:object3d"))
 

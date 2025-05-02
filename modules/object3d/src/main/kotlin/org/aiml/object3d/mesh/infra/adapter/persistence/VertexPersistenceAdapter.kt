@@ -26,4 +26,8 @@ class VertexPersistenceAdapter(
   override fun deleteByGeometryIds(geometryIds: List<UUID>): Result<Unit> = runCatching {
     vertexRepository.deleteAllByGeometryIdIn(geometryIds)
   }
+
+  override fun deleteAll(): Result<Unit> = runCatching {
+    vertexRepository.deleteAll()
+  }
 }

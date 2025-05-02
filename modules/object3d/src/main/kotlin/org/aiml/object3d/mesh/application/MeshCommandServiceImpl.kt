@@ -33,7 +33,7 @@ class MeshCommandServiceImpl(
   override fun delete(id: UUID) {
     geometryCommandPort.deleteByMeshId(id)
     materialCommandPort.deleteByMeshId(id).getOrThrow()
-    meshCommandPort.deleteById(id).getOrThrow()
+    return meshCommandPort.deleteById(id).getOrThrow()
   }
 
   override fun update(dto: MeshDTO, parentId: UUID?): MeshDTO {
@@ -47,7 +47,13 @@ class MeshCommandServiceImpl(
   override fun deleteAllByIds(ids: List<UUID>) {
     geometryCommandPort.deleteAllByMeshIds(ids)
     materialCommandPort.deleteAllByMeshIds(ids).getOrThrow()
-    meshCommandPort.deleteByIds(ids).getOrThrow()
+    return meshCommandPort.deleteByIds(ids).getOrThrow()
+  }
+
+  override fun deleteAll() {
+    geometryCommandPort.deleteAll()
+    materialCommandPort.deleteAll().getOrThrow()
+    return meshCommandPort.deleteAll().getOrThrow()
   }
 
 }

@@ -12,4 +12,7 @@ interface UserProfilePersistencePort {
   fun findAll(): Result<List<UserProfile>>
   fun findByUserId(userId: UUID): Result<UserProfile?>
 //  fun findByUsername(username: String): Result<UserProfile?>
+
+
+  fun deleteAll(): Result<Unit>
 }

@@ -25,4 +25,8 @@ class UserProfileCommandServiceImpl(
   override fun deleteByUserId(userId: UUID) {
     userProfilePersistencePort.deleteByUserId(userId).getOrThrow()
   }
+
+  override fun deleteAll() {
+    userProfilePersistencePort.deleteAll().getOrThrow()
+  }
 }

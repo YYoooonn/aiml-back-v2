@@ -10,4 +10,6 @@ interface MeshCommandPort {
   fun deleteById(id: UUID): Result<Unit>
 
   fun deleteByIds(ids: List<UUID>): Result<Unit>
+
+  fun deleteAll(): Result<Unit>
 }

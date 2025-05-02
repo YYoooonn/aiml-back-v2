@@ -3,7 +3,7 @@ package org.aiml.api.controller
 import org.aiml.api.common.response.*
 import org.aiml.api.dto.project.ProjectParticipantRequest
 import org.aiml.api.dto.project.ProjectUserResponse
-import org.aiml.project_user.application.facade.ProjectUserFacade
+import org.aiml.project_user.application.facade.ParticipantService
 import org.aiml.user.infra.security.CustomUserPrincipal
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -13,7 +13,7 @@ import java.util.*
 @RestController
 @RequestMapping("/api/project/{projectId}/participants")
 class ParticipantController(
-  private val projectUserFacade: ProjectUserFacade,
+  private val participantService: ParticipantService,
 ) {
 
   @GetMapping
@@ -21,7 +21,7 @@ class ParticipantController(
     @AuthenticationPrincipal principal: CustomUserPrincipal,
     @PathVariable("projectId") projectId: UUID
   ): ResponseEntity<ApiResponse<List<ProjectUserResponse>>> {
-    val participants = projectUserFacade.findUsers(principal.userId, projectId)
+    val participants = participantService.findParticipants(principal.userId, projectId)
     return ok(participants.map { ProjectUserResponse.from(it) })
   }
 
@@ -31,11 +31,9 @@ class ParticipantController(
     @RequestBody request: ProjectParticipantRequest,
     @PathVariable("projectId") projectId: UUID
   ): ResponseEntity<ApiResponse<ProjectUserResponse>> {
-    val participant = projectUserFacade.addParticipant(
+    val participant = participantService.addParticipant(
       principal.userId,
-      projectId,
-      request.username,
-      request.role
+      request.toDTO(projectId)
     )
     return created(ProjectUserResponse.from(participant))
   }
@@ -47,11 +45,9 @@ class ParticipantController(
     @PathVariable("projectId") projectId: UUID,
     @PathVariable("username") username: String
   ): ResponseEntity<ApiResponse<ProjectUserResponse>> {
-    val participant = projectUserFacade.updateParticipant(
+    val participant = participantService.updateParticipant(
       principal.userId,
-      projectId,
-      username,
-      request.role
+      request.toDTO(projectId)
     )
     return ok(ProjectUserResponse.from(participant))
   }
@@ -62,7 +58,7 @@ class ParticipantController(
     @PathVariable("projectId") projectId: UUID,
     @PathVariable("username") username: String
   ): ResponseEntity<ApiResponse<Nothing>> {
-    projectUserFacade.removeParticipant(principal.userId, projectId, username)
+    participantService.removeParticipant(principal.userId, projectId, username)
     return deleted()
   }
 }

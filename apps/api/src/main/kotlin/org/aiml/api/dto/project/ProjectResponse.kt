@@ -36,7 +36,7 @@ data class ProjectUserResponse(
     fun from(dto: ProjectUserNameDTO): ProjectUserResponse = ProjectUserResponse(
       projectId = dto.projectId,
       username = dto.username,
-      role = dto.role,
+      role = dto.role.toString(),
     )
   }
 }

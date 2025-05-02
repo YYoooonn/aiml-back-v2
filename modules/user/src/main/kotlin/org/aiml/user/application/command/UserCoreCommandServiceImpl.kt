@@ -43,4 +43,9 @@ class UserCoreCommandServiceImpl(
     return UserCoreDTO.from(saved)
   }
 
+
+  override fun deleteAll() {
+    return userCorePersistencePort.deleteAll().getOrThrow()
+  }
+
 }

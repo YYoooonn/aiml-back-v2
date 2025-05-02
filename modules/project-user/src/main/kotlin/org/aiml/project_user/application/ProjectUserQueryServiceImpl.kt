@@ -11,18 +11,28 @@ import java.util.*
 class ProjectUserQueryServiceImpl(
   private val projectUserQueryPort: ProjectUserQueryPort,
 ) : ProjectUserQueryService {
-  override fun findProjectsByUserId(userId: UUID): Result<List<ProjectUserDTO>> = runCatching {
-    projectUserQueryPort.findByUserId(userId).getOrThrow()
+  override fun findProjectsByUserId(userId: UUID): List<ProjectUserDTO> {
+    return projectUserQueryPort.findByUserId(userId).getOrThrow()
       .map { ProjectUserDTO.from(it) }
   }
 
-  override fun findUsersByProjectId(userId: UUID, projectId: UUID): Result<List<ProjectUserDTO>> = runCatching {
-    projectUserQueryPort.findByProjectId(projectId).getOrThrow()
+  override fun findUserOwnedProjects(userId: UUID): List<ProjectUserDTO> {
+    return findProjectsByUserId(userId).filter { it.role == ProjectUserRole.OWNER }
+  }
+
+  override fun findUsersByProjectId(userId: UUID, projectId: UUID): List<ProjectUserDTO> {
+    return projectUserQueryPort.findByProjectId(projectId).getOrThrow()
       .map { ProjectUserDTO.from(it) }
   }
 
-  override fun findProjectUser(userId: UUID, projectId: UUID): Result<ProjectUserDTO> = runCatching {
-    projectUserQueryPort.findByProjectIdAndUserId(projectId, userId).getOrThrow()
+  override fun findProjectUser(userId: UUID, projectId: UUID): ProjectUserDTO {
+    return projectUserQueryPort.findByProjectIdAndUserId(projectId, userId).getOrThrow()
       .let { ProjectUserDTO.from(it) }
   }
+
+  override fun findAll(): List<ProjectUserDTO> {
+    return projectUserQueryPort.findAll().getOrThrow()
+      .map { ProjectUserDTO.from(it) }
+  }
+
 }

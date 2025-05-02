@@ -35,4 +35,8 @@ class ProjectUserQueryAdapter(
         .toDomain()
     }
   }
+
+  override fun findAll(): Result<List<ProjectUser>> = runCatching {
+    projectUserRepository.findAll().map { it.toDomain() }
+  }
 }

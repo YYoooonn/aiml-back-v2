@@ -13,7 +13,7 @@ class Object3DQueryFacade(
 ) {
 
   fun getObjectTree(sceneId: UUID): List<Object3DDTO> {
-    val groups = groupQueryService.findBySceneId(sceneId).getOrThrow()
+    val groups = groupQueryService.findBySceneId(sceneId)
     val meshes = meshQueryService.findBySceneId(sceneId)
 
     val objects = mutableListOf<Object3DDTO>()

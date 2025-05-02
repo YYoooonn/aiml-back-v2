@@ -10,4 +10,6 @@ interface GeometryCommandPort {
   fun deleteByMeshId(id: UUID)
 
   fun deleteAllByMeshIds(ids: List<UUID>)
+
+  fun deleteAll()
 }

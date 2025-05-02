@@ -18,6 +18,7 @@ data class ProjectDTO(
     fun from(project: Project): ProjectDTO = ProjectDTO(
       id = project.id,
       title = project.title,
+      subtitle = project.subtitle,
       description = project.description,
       isPublic = project.status == ProjectStatus.PUBLIC,
       createdAt = project.createdAt,

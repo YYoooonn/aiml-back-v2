@@ -23,4 +23,9 @@ class SceneQueryServiceImpl(
   override fun findProjectId(id: UUID): UUID {
     return scenePersistencePort.findById(id).getOrThrow().projectId
   }
+
+  override fun findByProjectIds(projectIds: List<UUID>): List<SceneDTO> {
+    return scenePersistencePort.findByProjectIds(projectIds).getOrThrow()
+      .map { SceneDTO.from(it) }
+  }
 }

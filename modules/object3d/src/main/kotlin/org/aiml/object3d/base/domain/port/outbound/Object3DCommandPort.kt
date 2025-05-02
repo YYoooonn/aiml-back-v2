@@ -4,4 +4,5 @@ import java.util.*
 
 interface Object3DCommandPort {
   fun deleteBySceneId(sceneId: UUID): Result<Unit>
+  fun deleteAll(): Result<Unit>
 }

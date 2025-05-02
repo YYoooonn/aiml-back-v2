@@ -10,5 +10,9 @@ interface ScenePersistencePort {
 
   fun findAll(): Result<List<Scene>>
   fun findByProjectId(projectId: UUID): Result<List<Scene>>
+  fun findByProjectIds(projectIds: List<UUID>): Result<List<Scene>>
   fun deleteByProjectId(projectId: UUID): Result<Unit>
+
+
+  fun deleteAll(): Result<Unit>
 }

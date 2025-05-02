@@ -9,4 +9,6 @@ interface SceneCommandService {
   fun update(dto: SceneDTO): Result<SceneDTO>
   fun delete(id: UUID): Result<Unit>
   fun deleteByProjectId(projectId: UUID): Result<Unit>
+
+  fun deleteAll(): Unit
 }

@@ -8,4 +8,5 @@ interface MeshCommandService {
   fun update(dto: MeshDTO, parentId: UUID?): MeshDTO
   fun delete(id: UUID)
   fun deleteAllByIds(ids: List<UUID>)
+  fun deleteAll()
 }

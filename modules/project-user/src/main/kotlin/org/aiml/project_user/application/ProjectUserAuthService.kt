@@ -14,7 +14,7 @@ class ProjectUserAuthService(
     val pUser = projectUserQueryPort.findByProjectIdAndUserId(projectId, userId).getOrElse {
       throw NotAuthorizedException("Not a participant")
     }
-    if (pUser.role.hasPermission(role)) {
+    if (!pUser.role.hasPermission(role)) {
       throw NotAuthorizedException("Not Authorized, current: ${pUser.role.name} required: ${role.name}")
     }
   }

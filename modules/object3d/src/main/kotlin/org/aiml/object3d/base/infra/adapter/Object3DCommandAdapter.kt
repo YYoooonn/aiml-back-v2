@@ -12,4 +12,8 @@ class Object3DCommandAdapter(
   override fun deleteBySceneId(sceneId: UUID): Result<Unit> = runCatching {
     object3DRepository.deleteAllBySceneId(sceneId)
   }
+
+  override fun deleteAll(): Result<Unit> = runCatching {
+    object3DRepository.deleteAll()
+  }
 }

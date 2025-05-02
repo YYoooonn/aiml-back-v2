@@ -1,9 +1,6 @@
 package org.aiml.project_user.application
 
 import org.aiml.project_user.application.dto.ProjectUserDTO
-import org.aiml.project_user.domain.command.ProjectUserCommand
-import org.aiml.project_user.domain.model.ProjectUser
-import org.aiml.project_user.domain.model.ProjectUserRole
 import org.aiml.project_user.domain.port.outbound.ProjectUserCommandPort
 import org.aiml.project_user.domain.port.inbound.ProjectUserCommandService
 import org.springframework.stereotype.Service
@@ -29,5 +26,13 @@ class ProjectUserCommandServiceImpl(
 
   override fun deleteAllByProjectId(projectId: UUID) {
     return projectUserCommandPort.deleteAllProjectUserByProjectId(projectId).getOrThrow()
+  }
+
+  override fun deleteAllByUserId(userId: UUID) {
+    TODO("Not yet implemented")
+  }
+
+  override fun deleteAll() {
+    return projectUserCommandPort.deleteAll().getOrThrow()
   }
 }

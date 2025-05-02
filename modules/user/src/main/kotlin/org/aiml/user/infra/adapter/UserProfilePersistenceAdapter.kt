@@ -30,7 +30,10 @@ class UserProfilePersistenceAdapter(
   override fun findByUserId(userId: UUID): Result<UserProfile?> = runCatching {
     userProfileRepository.findByUserId(userId)?.toDomain()
   }
-
+  
+  override fun deleteAll(): Result<Unit> = runCatching {
+    userProfileRepository.deleteAll()
+  }
 
   // helper
   fun update(userProfile: UserProfile): Result<UserProfile> = runCatching {

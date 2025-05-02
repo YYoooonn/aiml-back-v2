@@ -6,5 +6,8 @@ import java.util.*
 interface ProjectCommandService {
   fun create(dto: ProjectDTO): ProjectDTO
   fun update(dto: ProjectDTO): ProjectDTO
-  fun delete(projectId: UUID)
+  fun deleteById(projectId: UUID)
+  fun deleteByIds(ids: List<UUID>)
+
+  fun deleteAll()
 }

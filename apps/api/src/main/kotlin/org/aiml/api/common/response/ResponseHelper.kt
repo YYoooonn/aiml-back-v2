@@ -1,5 +1,7 @@
 package org.aiml.api.common.response
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 
@@ -26,8 +28,7 @@ fun <T> created(data: T, message: String = "Created", code: Int = 0): ResponseEn
 }
 
 fun <T> deleted(data: T? = null, message: String = "Deleted", code: Int = 0): ResponseEntity<ApiResponse<T>> {
-  return ResponseEntity.status(HttpStatus.NO_CONTENT)
-    .body(ApiResponse(code = code, success = true, message = message, data = data))
+  return ResponseEntity.ok(ApiResponse(code = code, success = true, message = message, data = data))
 }
 
 /* failure */
@@ -61,4 +62,18 @@ fun <T> errorFromModule(
       revalidate = revalidate
     )
   )
+}
+
+fun tokenError(response: HttpServletResponse, message: String, objectMapper: ObjectMapper) {
+  val errorResponse = mapOf(
+    "code" to 400,
+    "message" to message,
+    "success" to false,
+    "revalidate" to true
+  )
+
+  response.status = HttpServletResponse.SC_UNAUTHORIZED
+  response.contentType = "application/json"
+  response.characterEncoding = "UTF-8"
+  response.writer.write(objectMapper.writeValueAsString(errorResponse))
 }

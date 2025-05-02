@@ -6,5 +6,6 @@ import java.util.UUID
 
 interface SceneRepository : JpaRepository<SceneEntity, UUID> {
   fun findAllByProjectId(projectId: UUID): List<SceneEntity>
+  fun findAllByProjectIdIn(projectIds: List<UUID>): List<SceneEntity>
   fun deleteAllByProjectId(projectId: UUID)
 }
