@@ -1,0 +1,68 @@
+services:
+  mysql:
+    env_file:
+      - .env
+    image: mysql:8
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./config/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    deploy:
+      resources:
+        limits:
+          memory: 300m
+    networks:
+      - backend
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    env_file:
+      - .env
+    ports:
+      - "6379:6379"
+    command: >
+      sh -c "redis-server --requirepass $${REDIS_PASSWORD} --maxmemory $${MAX_MEMORY} --appendonly yes"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - backend
+
+  api:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: spring-api
+    image: ${DOCKER_REPO}/aimlback:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    env_file: .env
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+    networks:
+      - backend
+
+volumes:
+  mysql_data:
+  redis-data:
+
+networks:
+  backend:
+    driver: bridge

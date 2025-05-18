@@ -1,0 +1,51 @@
+spring:
+  web:
+    resources:
+      add-mappings: false
+  application:
+    name: api-service
+  datasource:
+    mysql:
+      url: jdbc:mysql://mysql-db:3306/${MYSQL_DATABASE}
+      username: ${DB_USER}
+      password: ${DB_PASSWORD}
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    postgres:
+      url: jdbc:postgresql://${POSTGRES_HOST}:5432/${POSTGRES_DB}?useSSL=false
+      username: ${DB_USER}
+      password: ${DB_PASSWORD}
+      driver-class-name: org.postgresql.Driver
+
+  jpa:
+    mysql:
+      hibernate:
+        ddl-auto: update   # create, update, validate, none 중 선택
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQLDialect
+      show-sql: true
+
+    postgres:
+      hibernate:
+        ddl-auto: update
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+      show-sql: true
+
+  data:
+    redis:
+      host: redis
+      port: 6379
+      password: ${REDIS_PASSWORD}
+
+server:
+  port: 8080
+logging:
+  level:
+    root: INFO
+    org.springframework: INFO
+
+security:
+  jwt:
+    secret-key: ${JWT_SECRET}
