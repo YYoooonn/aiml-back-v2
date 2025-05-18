@@ -18,15 +18,15 @@ jobs:
 
       - name: Create .env
         run:
-          echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
-          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
-          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env
-          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
-          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
-          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
-          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
-          echo "DOCKER_REPO=${{ vars.DOCKER_REPO }}" >> .env
+          echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env |
+          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env |
+          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env |
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env |
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env |
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env |
+          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env |
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env |
+          echo "DOCKER_REPO=${{ vars.DOCKER_REPO }}" >> .env |
           echo "MAX_MEMORY=${{ vars.MAX_MEMORY }}" >> .env
         shell: bash
 
