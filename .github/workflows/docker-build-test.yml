@@ -1,0 +1,49 @@
+# .github/workflows/docker-build-test.yml
+name: Docker Compose Test CI
+
+on:
+  push:
+    branches: [dev]
+  pull_request:
+    branches: [dev]
+
+jobs:
+  docker-build-test:
+    runs-on: ubuntu-latest
+    environment: AIML_DEV
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create .env
+        run:
+          echo "MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}" >> .env
+          echo "MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }}" >> .env
+          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env
+          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env
+          echo "DOCKER_REPO=${{ vars.DOCKER_REPO }}" >> .env
+          echo "MAX_MEMORY=${{ vars.MAX_MEMORY }}" >> .env
+        shell: bash
+
+      - name: Build containers
+        run: docker compose -f docker-compose.yml build
+
+      - name: Run containers
+        run: docker compose -f docker-compose.yml up -d
+
+      - name: Wait for services
+        run: sleep 150
+
+      - name: Check services
+        run: docker compose ps
+
+      - name: Optional health check
+        run: curl -f http://localhost:8080/test || exit 1
+
+      - name: Stop containers
+        run: docker compose down
