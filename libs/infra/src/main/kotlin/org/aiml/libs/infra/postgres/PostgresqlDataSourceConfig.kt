@@ -39,6 +39,7 @@ class PostgresqlDataSourceConfig {
       password = props.password
       driverClassName = props.driverClassName
       maximumPoolSize = props.pool.maxSize
+      minimumIdle = props.idle
     }
     return HikariDataSource(config)
   }
