@@ -1,5 +1,7 @@
 services:
   mysql:
+    env_file:
+      - .env
     image: mysql:8
     container_name: mysql-db
     ports:
@@ -25,6 +27,8 @@ services:
       - backend
 
   postgres:
+    env_file:
+      - .env
     image: postgres:14-alpine
     container_name: ${POSTGRES_HOST}
     ports:
