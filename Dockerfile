@@ -9,7 +9,7 @@ FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
-COPY ./apps/api/build/libs/*.jar app.jar
+COPY --from=build  /app/apps/api/build/libs/*.jar app.jar
 EXPOSE 8080
 
 # JVM 메모리 제한 및 성능 최적화
