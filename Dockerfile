@@ -1,11 +1,22 @@
-FROM openjdk:17-jdk-slim
+# 빌드 스테이지
+FROM gradle:8.4-jdk17 AS build
+WORKDIR /app
+COPY . .
+RUN gradle bootJar --no-daemon
+
+# 런타임 스테이지
+FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
 COPY ./apps/api/build/libs/*.jar app.jar
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# JVM 메모리 제한 및 성능 최적화
+ENV JAVA_OPTS="-Xms128m -Xmx256m -XX:+UseSerialGC"
+
+# 실행
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]
 
 ## ---------- Step 1: Build Stage ----------
 #FROM gradle:8.12-jdk17 AS builder

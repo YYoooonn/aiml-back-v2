@@ -8,10 +8,11 @@ data class PostgresqlDataSourceProperties(
   val username: String,
   val password: String,
   val driverClassName: String,
-  val pool: Pool = Pool()
+  val pool: Pool = Pool(),
+  val idle: Int = 1,
 ) {
   data class Pool(
-    val maxSize: Int = 10,
+    val maxSize: Int = 3,
   )
 }
 

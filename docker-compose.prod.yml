@@ -24,29 +24,6 @@ services:
     networks:
       - backend
 
-  postgres:
-    image: postgres:14-alpine
-    container_name: ${POSTGRES_HOST}
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - backend
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB" ]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-    deploy:
-      resources:
-        limits:
-          memory: 300m
-
   redis:
     image: redis:7-alpine
     container_name: redis
@@ -68,13 +45,11 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: spring-api
-    image: ${DOCKER_REPO}/aimlback:local
+    image: ${DOCKER_REPO}/aimlback:latest
     ports:
       - "8080:8080"
     depends_on:
       mysql:
-        condition: service_healthy
-      postgres:
         condition: service_healthy
     env_file: .env
     environment:
@@ -84,7 +59,6 @@ services:
 
 volumes:
   mysql_data:
-  postgres_data:
   redis-data:
 
 networks:

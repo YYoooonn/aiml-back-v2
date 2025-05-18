@@ -39,6 +39,11 @@ class MysqlSourceConfig {
       password = props.password
       driverClassName = props.driverClassName
       maximumPoolSize = props.pool.maxSize
+      minimumIdle = props.idle
+      connectionTimeout = 30000  // 신규
+      validationTimeout = 3000   // 신규
+      idleTimeout = 10000        // 필요시
+      maxLifetime = 30000        // 필요시
     }
     return HikariDataSource(config)
   }
