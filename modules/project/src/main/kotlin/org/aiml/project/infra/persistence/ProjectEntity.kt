@@ -1,9 +1,6 @@
 package org.aiml.project.infra.persistence
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.aiml.libs.common.entity.BaseEntity
 import org.aiml.project.domain.model.Project
 import org.aiml.project.domain.model.ProjectStatus
@@ -22,6 +19,7 @@ data class ProjectEntity(
 
   val description: String? = null,
 
+  @Enumerated(EnumType.STRING)
   val status: ProjectStatus
 
 ) : BaseEntity() {
