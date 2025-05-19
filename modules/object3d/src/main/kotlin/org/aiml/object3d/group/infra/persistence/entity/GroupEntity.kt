@@ -4,7 +4,7 @@ import jakarta.persistence.*
 import org.aiml.object3d.group.domain.model.Group
 import org.aiml.object3d.base.domain.model.Object3DType
 import org.aiml.object3d.base.infra.persistence.entity.Object3DEntity
-import org.aiml.object3d.base.infra.persistence.entity.TransformEmbeddable
+import org.aiml.object3d.base.infra.persistence.entity.TransformMatrix
 import java.util.*
 
 @Entity
@@ -23,7 +23,7 @@ data class GroupEntity(
   override val name: String,
 
   @Embedded
-  override val transform: TransformEmbeddable = TransformEmbeddable(),
+  override val transform: TransformMatrix = TransformMatrix(),
 
   override val visible: Boolean = true,
 ) : Object3DEntity(id, sceneId, parent, name, transform, visible, Object3DType.GROUP) {
@@ -47,7 +47,7 @@ data class GroupEntity(
       sceneId = domain.sceneId,
       parent = parent,
       name = domain.name,
-      transform = TransformEmbeddable.from(domain.transform),
+      transform = TransformMatrix.from(domain.transform),
       visible = domain.visible,
     )
   }

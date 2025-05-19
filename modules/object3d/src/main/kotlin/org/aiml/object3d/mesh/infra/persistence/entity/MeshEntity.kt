@@ -6,7 +6,7 @@ import org.aiml.object3d.mesh.domain.model.material.Material
 import org.aiml.object3d.mesh.domain.model.Mesh
 import org.aiml.object3d.base.domain.model.Object3DType
 import org.aiml.object3d.base.infra.persistence.entity.Object3DEntity
-import org.aiml.object3d.base.infra.persistence.entity.TransformEmbeddable
+import org.aiml.object3d.base.infra.persistence.entity.TransformMatrix
 
 import java.util.*
 
@@ -28,7 +28,7 @@ class MeshEntity(
   override val name: String,
 
   @Embedded
-  override val transform: TransformEmbeddable = TransformEmbeddable(),
+  override val transform: TransformMatrix = TransformMatrix(),
 
   override val visible: Boolean = true,
 
@@ -64,7 +64,7 @@ class MeshEntity(
       sceneId = mesh.sceneId,
       parent = parent,
       name = mesh.name,
-      transform = TransformEmbeddable.from(mesh.transform),
+      transform = TransformMatrix.from(mesh.transform),
       visible = mesh.visible,
 
       geometryId = mesh.geometryId,

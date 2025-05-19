@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("/api/project/{projectId}/participants")
+@RequestMapping("/api/{projectId}/participant")
 class ParticipantController(
   private val participantService: ParticipantService,
 ) {
@@ -38,12 +38,11 @@ class ParticipantController(
     return created(ProjectUserResponse.from(participant))
   }
 
-  @PutMapping("/{username}")
+  @PutMapping
   fun updateParticipant(
     @AuthenticationPrincipal principal: CustomUserPrincipal,
     @RequestBody request: ProjectParticipantRequest,
-    @PathVariable("projectId") projectId: UUID,
-    @PathVariable("username") username: String
+    @PathVariable("projectId") projectId: UUID
   ): ResponseEntity<ApiResponse<ProjectUserResponse>> {
     val participant = participantService.updateParticipant(
       principal.userId,

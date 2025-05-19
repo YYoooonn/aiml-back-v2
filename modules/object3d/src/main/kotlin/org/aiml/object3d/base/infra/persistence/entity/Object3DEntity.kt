@@ -26,7 +26,7 @@ abstract class Object3DEntity(
   open val name: String? = null,
 
   @Embedded
-  open val transform: TransformEmbeddable = TransformEmbeddable(),
+  open val transform: TransformMatrix = TransformMatrix(),
 
   open val visible: Boolean = true,
 

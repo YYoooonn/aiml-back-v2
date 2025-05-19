@@ -8,7 +8,7 @@ open class Object3D(
   open val sceneId: UUID,
   open val parentId: UUID? = null,
   open val name: String? = null,
-  open val transform: Transform = Transform(),
+  open val transform: List<Float> = DEFAULT_TRANSFORM,
   open val visible: Boolean = true,
   open val type: Object3DType,
 
@@ -20,3 +20,10 @@ open class Object3D(
 enum class Object3DType {
   MESH, GROUP, LIGHT, CAMERA, DEFAULT
 }
+
+val DEFAULT_TRANSFORM = listOf(
+  1f, 0f, 0f, 0f,
+  0f, 1f, 0f, 0f,
+  0f, 0f, 1f, 0f,
+  0f, 0f, 0f, 1f
+)
