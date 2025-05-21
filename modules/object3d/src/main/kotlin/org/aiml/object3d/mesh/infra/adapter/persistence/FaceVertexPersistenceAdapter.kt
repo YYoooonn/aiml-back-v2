@@ -7,6 +7,7 @@ import org.aiml.object3d.mesh.infra.persistence.entity.geometry.FVEntityConstruc
 import org.aiml.object3d.mesh.infra.persistence.entity.geometry.FaceVertexEntity
 import org.aiml.object3d.mesh.infra.persistence.repository.FaceVertexRepository
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class FaceVertexPersistenceAdapter(
@@ -20,11 +21,13 @@ class FaceVertexPersistenceAdapter(
     saved.map { it.toDomain() }
   }
 
-
-  override fun deleteByFaceIds(faceIds: List<Long>): Result<Unit> {
-    return runCatching {
-      faceVertexRepository.deleteByFaceIdIn(faceIds)
-    }
+  override fun deleteByGeometryIds(geometryIds: List<UUID>): Result<Unit> = runCatching {
+    faceVertexRepository.deleteByGeometryIdIn(geometryIds)
   }
+  
+//
+//  override fun deleteByFaceIds(faceIds: List<Long>): Result<Unit> = runCatching {
+//    TODO()
+//  }
 
 }
