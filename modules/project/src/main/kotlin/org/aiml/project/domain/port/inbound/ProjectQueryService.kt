@@ -8,6 +8,7 @@ import java.util.*
 interface ProjectQueryService {
   fun findById(id: UUID): ProjectDTO
   fun findByIds(ids: List<UUID>): List<ProjectDTO>
+  fun checkIfProjectPublic(id: UUID): Boolean
 
   fun searchByQuery(query: String, pageable: Pageable): Page<ProjectDTO>
 

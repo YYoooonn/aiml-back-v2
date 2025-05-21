@@ -73,8 +73,18 @@ class ProjectController(
   fun getProjectScenes(
     @AuthenticationPrincipal principal: CustomUserPrincipal,
     @PathVariable("projectId") projectId: UUID,
-  ): ResponseEntity<ApiResponse<List<SceneResponse>>> {
+  ): ResponseEntity<ApiResponse<List<SceneResponse>>> { // TODD -> LI
     val scenes = sceneQueryFacade.loadScenesByProject(principal.userId, projectId)
     return ok(scenes.map { SceneResponse.fromDTO(it) })
+  }
+
+  @PostMapping("/{projectId}/scenes")
+  fun createProjectScene(
+    @AuthenticationPrincipal principal: CustomUserPrincipal,
+    @PathVariable("projectId") projectId: UUID,
+    @RequestBody request: SceneRequest
+  ): ResponseEntity<ApiResponse<SceneResponse>> {
+    val scene = sceneCommandFacade.create(principal.userId, request.toDTO())
+    return created(SceneResponse.fromDTO(scene))
   }
 }

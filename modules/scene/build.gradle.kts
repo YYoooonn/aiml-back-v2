@@ -7,6 +7,7 @@ dependencies {
   implementation(project(":libs:common"))
   implementation(project(":libs:infra"))
   implementation(project(":modules:project-user"))
+  implementation(project(":modules:project"))
   implementation(project(":modules:object3d"))
 
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
