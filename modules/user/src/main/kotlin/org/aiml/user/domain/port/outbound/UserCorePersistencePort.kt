@@ -18,6 +18,8 @@ interface UserCorePersistencePort {
   fun existsByEmail(email: String): Boolean
   fun existsByUsername(username: String): Boolean
 
+  fun searchUsersByUsername(username: String): Result<List<User>>
+
 
   fun deleteAll(): Result<Unit>
 }
