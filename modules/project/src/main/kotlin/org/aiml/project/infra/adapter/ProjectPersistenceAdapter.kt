@@ -1,6 +1,7 @@
 package org.aiml.project.infra.adapter
 
 import org.aiml.project.domain.model.Project
+import org.aiml.project.domain.model.ProjectStatus
 import org.aiml.project.domain.port.outbound.ProjectPersistencePort
 import org.aiml.project.infra.persistence.ProjectEntity
 import org.aiml.project.infra.persistence.repository.ProjectRepository
@@ -36,8 +37,7 @@ class ProjectPersistenceAdapter(
   }
 
   override fun searchByQuery(query: String, pageable: Pageable): Page<Project> {
-    TODO()
-//    return projectRepository.findPublicByQuery(query, pageable).map { it.toDomain() }
+    return projectRepository.findPublicProjectByQueryAndPageable(query, pageable).map { it.toDomain() }
   }
 
 
