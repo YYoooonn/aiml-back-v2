@@ -9,4 +9,5 @@ interface UserCoreRepository : JpaRepository<UserEntity, UUID> {
   fun findByEmail(email: String): UserEntity?
   fun existsByUsername(username: String): Boolean
   fun existsByEmail(email: String): Boolean
+  fun findByUsernameContainingIgnoreCase(username: String): List<UserEntity>
 }

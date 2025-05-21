@@ -1,6 +1,7 @@
 package org.aiml.project.application.service
 
 import org.aiml.project.application.dto.ProjectDTO
+import org.aiml.project.domain.model.ProjectStatus
 import org.aiml.project.domain.port.inbound.ProjectQueryService
 import org.aiml.project.domain.port.outbound.ProjectPersistencePort
 import org.springframework.data.domain.Page
@@ -18,6 +19,10 @@ class ProjectQueryServiceImpl(
 
   override fun findByIds(ids: List<UUID>): List<ProjectDTO> {
     return projectPersistencePort.findByIds(ids).getOrThrow().map { ProjectDTO.from(it) }
+  }
+
+  override fun checkIfProjectPublic(id: UUID): Boolean {
+    return projectPersistencePort.findById(id).getOrThrow().status == ProjectStatus.PUBLIC
   }
 
   override fun searchByQuery(query: String, pageable: Pageable): Page<ProjectDTO> {

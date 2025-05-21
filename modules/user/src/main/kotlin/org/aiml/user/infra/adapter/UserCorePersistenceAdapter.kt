@@ -60,4 +60,7 @@ class UserCorePersistenceAdapter(
     userCoreRepository.deleteAll()
   }
 
+  override fun searchUsersByUsername(username: String): Result<List<User>> = runCatching {
+    userCoreRepository.findByUsernameContainingIgnoreCase(username).map { it.toDomain() }
+  }
 }
