@@ -85,6 +85,11 @@ services:
       SPRING_PROFILES_ACTIVE: docker
     networks:
       - backend
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mysql_data:

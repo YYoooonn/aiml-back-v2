@@ -30,20 +30,26 @@ class GeometryQueryAdapter(
     // 3. FaceEntity 조회
     val faces = queryFacesByGeometryIds(ids)
 
-    // 4. FaceVertexEntity 조회
-    val faceVertexEntities = queryFaceVerticesByFaceIds(faces.map { it.id })
+    // 4. FaceVertexEntity 조회 (geometryId 기준 조회)
+    val faceVertexEntities = queryFaceVerticesByGeometryIds(ids)
 
     // 5. Grouping
     val verticesMap = vertices.groupBy { it.geometryId }
     val facesMap = faces.groupBy { it.geometryId }
-    val faceVerticesMap = faceVertexEntities.groupBy { it.faceId }
+    val faceVerticesMap = faceVertexEntities.groupBy { Pair(it.geometryId, it.faceIndex) }
 
-    // 6. 조립
+//    // 6. Grouping
+//    val verticesMap = vertices.groupBy { it.geometryId }
+//    val facesMap = faces.groupBy { it.geometryId }
+//    val faceVerticesMap = faceVertexEntities.groupBy { FaceId(it.geometryId, it.faceIndex) }
+
+    // 7. 조립
     geometryEntities.map { geometryEntity ->
       val geometryId = geometryEntity.id
       val geometryVertices = verticesMap[geometryId]?.map { it.toDomain() } ?: emptyList()
       val geometryFaces = facesMap[geometryId]?.map { faceEntity ->
-        val faceVertices = faceVerticesMap[faceEntity.id]?.map { it.toDomain() } ?: emptyList()
+        val faceId = Pair(faceEntity.geometryId, faceEntity.index)
+        val faceVertices = faceVerticesMap[faceId]?.map { it.toDomain() } ?: emptyList()
         faceEntity.toDomain(faceVertices)
       } ?: emptyList()
 
@@ -65,16 +71,17 @@ class GeometryQueryAdapter(
   }
 
   fun findFacesByGeometryId(geometryId: UUID): Result<List<Face>> = runCatching {
-    val faceEntities = queryFacesByGeometryId(geometryId)
-    val faceIds = faceEntities.map { it.id }
-    val faceVertexEntities = queryFaceVerticesByFaceIds(faceIds)
-
-    val faceVertexMap = faceVertexEntities.groupBy { it.faceId }
-
-    faceEntities.map { face ->
-      val vertices = faceVertexMap[face.id]?.map { it.toDomain() } ?: emptyList()
-      face.toDomain(vertices)
-    }
+    TODO()
+//    val faceEntities = queryFacesByGeometryId(geometryId)
+//    val faceIds = faceEntities.map { it.id }
+//    val faceVertexEntities = queryFaceVerticesByFaceIds(faceIds)
+//
+//    val faceVertexMap = faceVertexEntities.groupBy { it.faceId }
+//
+//    faceEntities.map { face ->
+//      val vertices = faceVertexMap[face.id]?.map { it.toDomain() } ?: emptyList()
+//      face.toDomain(vertices)
+//    }
   }
 
   fun findVerticesByGeometryId(geometryId: UUID): Result<List<Vertex>> =
@@ -122,14 +129,17 @@ class GeometryQueryAdapter(
       .fetch()
   }
 
-  private fun queryFaceVerticesByFaceIds(faceIds: List<Long>): List<FaceVertexEntity> {
-    if (faceIds.isEmpty()) return emptyList()
+  private fun queryFaceVerticesByGeometryIds(geometryIds: List<UUID>): List<FaceVertexEntity> {
+    if (geometryIds.isEmpty()) return emptyList()
+
     val qFaceVertex = QFaceVertexEntity.faceVertexEntity
+
     return queryFactory
       .selectFrom(qFaceVertex)
-      .where(qFaceVertex.faceId.`in`(faceIds))
+      .where(qFaceVertex.geometryId.`in`(geometryIds))
       .orderBy(
-        qFaceVertex.faceId.asc(),
+        qFaceVertex.geometryId.asc(),
+        qFaceVertex.faceIndex.asc(),
         qFaceVertex.vertexIndexOrder.asc()
       )
       .fetch()
@@ -139,12 +149,41 @@ class GeometryQueryAdapter(
     val faceEntities = queryFacesByGeometryId(geometryId)
     if (faceEntities.isEmpty()) return emptyList()
 
-    val faceVertexEntities = queryFaceVerticesByFaceIds(faceEntities.map { it.id })
-    val fvMap = faceVertexEntities.groupBy { it.faceId }
+    val faceVertexEntities = queryFaceVerticesByGeometryIds(listOf(geometryId))
+    val fvMap = faceVertexEntities.groupBy { Pair(it.geometryId, it.faceIndex) }
 
     return faceEntities.map { faceEntity ->
-      val faceVertices = fvMap[faceEntity.id]?.map { it.toDomain() } ?: emptyList()
+      val faceId = Pair(faceEntity.geometryId, faceEntity.index)
+      val faceVertices = fvMap[faceId]?.map { it.toDomain() } ?: emptyList()
       faceEntity.toDomain(faceVertices)
     }
   }
+
+
+  private fun queryFaceVerticesByFaceIds(faceIds: List<FaceId>): List<FaceVertexEntity> {
+    TODO()
+//    if (faceIds.isEmpty()) return emptyList()
+//
+//    val qFaceVertex = QFaceVertexEntity.faceVertexEntity
+//
+//    val tuples = faceIds.map {
+//      Expressions.list(
+//        Expressions.constant(it.geometryId),
+//        Expressions.constant(it.index)
+//      )
+//    }
+//
+//    return queryFactory
+//      .selectFrom(qFaceVertex)
+//      .where(
+//        Expressions.list(qFaceVertex.geometryId, qFaceVertex.faceIndex).`in`(tuples)
+//      )
+//      .orderBy(
+//        qFaceVertex.geometryId.asc(),
+//        qFaceVertex.faceIndex.asc(),
+//        qFaceVertex.vertexIndexOrder.asc()
+//      )
+//      .fetch()
+  }
+
 }
