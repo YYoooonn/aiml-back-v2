@@ -3,9 +3,9 @@ name: Docker Compose Test CI
 
 on:
   push:
-    branches: [dev]
+    branches: [ dev ]
   pull_request:
-    branches: [dev]
+    branches: [ dev ]
 
 jobs:
   docker-build-test:
@@ -27,7 +27,8 @@ jobs:
           echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env |
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env |
           echo "DOCKER_REPO=${{ vars.DOCKER_REPO }}" >> .env |
-          echo "MAX_MEMORY=${{ vars.MAX_MEMORY }}" >> .env
+          echo "MAX_MEMORY=${{ vars.MAX_MEMORY }}" >> .env |
+          echo "DDL_PROPERTY=${{ vars.DDL_PROPERTY }}" >> .env
         shell: bash
 
       - name: Build containers
@@ -37,13 +38,25 @@ jobs:
         run: docker compose -f docker-compose.yml up -d
 
       - name: Wait for services
-        run: sleep 150
-
+        run: sleep 10
+  
       - name: Check services
         run: docker compose ps
 
-      - name: Optional health check
-        run: curl -f http://localhost:8080/test || exit 1
+      - name: Optional health check with retries
+        run: |
+          for i in {1..10}; do
+            echo "Attempt $i..."
+            if curl -f http://localhost:8080/test; then
+              echo "Service is healthy!"
+              exit 0
+            fi
+            echo "Not healthy yet. Retrying in 10 seconds..."
+            sleep 10
+          done
+          echo "Service did not become healthy after 10 attempts."
+          exit 1
+        shell: bash
 
       - name: Stop containers
         run: docker compose down

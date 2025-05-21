@@ -6,5 +6,6 @@ import java.util.*
 
 interface FaceVertexPersistencePort {
   fun saveAll(constructors: List<FVEntityConstructor>): Result<List<FaceVertex>>
-  fun deleteByFaceIds(faceIds: List<Long>): Result<Unit>
+
+  fun deleteByGeometryIds(geometryIds: List<UUID>): Result<Unit>
 }

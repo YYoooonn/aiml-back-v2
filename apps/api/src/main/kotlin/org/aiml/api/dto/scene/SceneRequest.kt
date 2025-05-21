@@ -14,13 +14,13 @@ data class SceneRequest(
   val children: List<Object3DRequest> = emptyList()
 )
 
-fun SceneRequest.toDTO(): SceneDTO {
-  val id = this.id ?: UUID.randomUUID()
+fun SceneRequest.toDTO(id: UUID? = null): SceneDTO {
+  val sceneId = id ?: UUID.randomUUID()
   return SceneDTO(
-    id = id,
+    id = sceneId,
     projectId = projectId,
     name = name,
 
-    children = children.map { it.toDTO(id) }
+    children = children.map { it.toDTO(sceneId) }
   )
 }

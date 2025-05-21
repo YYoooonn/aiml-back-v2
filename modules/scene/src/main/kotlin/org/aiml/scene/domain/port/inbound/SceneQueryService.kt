@@ -8,4 +8,6 @@ interface SceneQueryService {
   fun findByProjectIds(projectIds: List<UUID>): List<SceneDTO>
   fun findById(id: UUID): SceneDTO
   fun findProjectId(id: UUID): UUID
+
+  fun findAll(): List<SceneDTO>
 }

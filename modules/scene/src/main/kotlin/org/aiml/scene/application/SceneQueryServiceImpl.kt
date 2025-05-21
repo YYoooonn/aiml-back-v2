@@ -28,4 +28,9 @@ class SceneQueryServiceImpl(
     return scenePersistencePort.findByProjectIds(projectIds).getOrThrow()
       .map { SceneDTO.from(it) }
   }
+
+  override fun findAll(): List<SceneDTO> {
+    return scenePersistencePort.findAll().getOrThrow()
+      .map { SceneDTO.from(it) }
+  }
 }

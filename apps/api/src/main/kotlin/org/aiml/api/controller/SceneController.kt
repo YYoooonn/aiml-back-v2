@@ -42,7 +42,7 @@ class SceneController(
     @PathVariable sceneId: UUID,
     @RequestBody request: SceneRequest
   ): ResponseEntity<ApiResponse<SceneResponse>> {
-    val scene = sceneCommandFacade.update(principal.userId, request.toDTO())
+    val scene = sceneCommandFacade.update(principal.userId, request.toDTO(sceneId))
     return created(SceneResponse.fromDTO(scene))
   }
 

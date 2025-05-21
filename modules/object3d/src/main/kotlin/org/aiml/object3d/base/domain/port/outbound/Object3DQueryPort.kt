@@ -7,4 +7,7 @@ interface Object3DQueryPort {
   fun findById(id: UUID): Result<Object3D>
   fun findAllByIds(ids: List<UUID>): Result<List<Object3D>>
   fun findAllBySceneId(sceneId: UUID): Result<List<Object3D>>
+  fun findAll(): Result<List<Object3D>>
+
+  fun findAllDescendantIds(rootId: UUID): Result<List<UUID>>
 }

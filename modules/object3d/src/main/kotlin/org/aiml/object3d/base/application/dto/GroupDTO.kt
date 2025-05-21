@@ -9,7 +9,7 @@ data class GroupDTO(
   override val sceneId: UUID,
   override val name: String = "untitled group",
   override val type: String = "GROUP",
-  override val transform: TransformDTO,
+  override val transform: List<Float>,
   override val visible: Boolean = true,
   override val parentId: UUID? = null,
   override val createdAt: LocalDateTime = LocalDateTime.now(),
@@ -22,7 +22,7 @@ data class GroupDTO(
       id = group.id,
       sceneId = group.sceneId,
       name = group.name,
-      transform = TransformDTO.from(group.transform),
+      transform = group.transform,
       visible = group.visible,
       parentId = group.parentId,
 
@@ -37,7 +37,7 @@ data class GroupDTO(
     name = name,
     sceneId = sceneId,
     parentId = parentId,
-    transform = transform.toDomain(),
+    transform = transform,
     visible = visible,
   )
 

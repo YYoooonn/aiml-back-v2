@@ -4,6 +4,8 @@ import org.aiml.project.domain.model.Project
 import org.aiml.project.domain.port.outbound.ProjectPersistencePort
 import org.aiml.project.infra.persistence.ProjectEntity
 import org.aiml.project.infra.persistence.repository.ProjectRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -32,6 +34,12 @@ class ProjectPersistenceAdapter(
   override fun findByIds(ids: List<UUID>): Result<List<Project>> = runCatching {
     projectRepository.findAllById(ids).map { it.toDomain() }
   }
+
+  override fun searchByQuery(query: String, pageable: Pageable): Page<Project> {
+    TODO()
+//    return projectRepository.findPublicByQuery(query, pageable).map { it.toDomain() }
+  }
+
 
   override fun findAll(): Result<List<Project>> = runCatching {
     projectRepository.findAll().map { it.toDomain() }

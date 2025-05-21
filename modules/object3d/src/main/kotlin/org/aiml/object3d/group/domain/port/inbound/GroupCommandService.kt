@@ -4,7 +4,7 @@ import org.aiml.object3d.base.application.dto.GroupDTO
 import java.util.*
 
 interface GroupCommandService {
-  fun create(dto: GroupDTO, sceneId: UUID): GroupDTO
-  fun update(dto: GroupDTO, sceneId: UUID): GroupDTO
+  fun create(dto: GroupDTO): GroupDTO
+  fun update(dto: GroupDTO): GroupDTO
   fun delete(id: UUID)
 }

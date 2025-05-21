@@ -9,7 +9,7 @@ data class Object3DRequest(
   val name: String?,
   // TODO to enum, kotlin 에서 json이더라도 동일 문자열 가지는 경우 자동 매핑
   val type: String,
-  val transform: TransformDTO,
+  val transform: List<Float>,
   val visible: Boolean = true,
   val parentId: UUID? = null,
 

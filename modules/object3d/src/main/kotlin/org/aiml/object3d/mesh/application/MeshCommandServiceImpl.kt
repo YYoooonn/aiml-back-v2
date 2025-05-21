@@ -25,8 +25,11 @@ class MeshCommandServiceImpl(
     val geo = geometryCommandPort.save(dto.geometry.toDomain(mesh.id))
     val mat = materialCommandPort.save(dto.material.toDomain(mesh.id)).getOrThrow()
 
+//    println("geometry : Geometry(id=${geo.id} meshId=${geo.meshId}")
+//    println("material : Material(id=${mat.id} meshId=${mat.meshId}")
     val new = meshCommandPort.save(mesh.copy(geometryId = geo.id, materialId = mat.id))
       .getOrThrow()
+//    println("mesh from mesh command service : Mesh(id=${new.id} transform=${new.transform}")
     return MeshDTO.from(new, dto.geometry, dto.material)
   }
 

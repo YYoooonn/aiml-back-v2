@@ -10,6 +10,40 @@ import org.aiml.object3d.base.domain.model.Transform
 import org.aiml.object3d.base.domain.model.Vector3
 
 @Embeddable
+class TransformMatrix(
+  var m00: Float = 1f, var m01: Float = 0f, var m02: Float = 0f, var m03: Float = 0f,
+  var m10: Float = 0f, var m11: Float = 1f, var m12: Float = 0f, var m13: Float = 0f,
+  var m20: Float = 0f, var m21: Float = 0f, var m22: Float = 1f, var m23: Float = 0f,
+  var m30: Float = 0f, var m31: Float = 0f, var m32: Float = 0f, var m33: Float = 1f
+) {
+
+  override fun toString(): String {
+    return "[${this.m00}, ${this.m01}, ${this.m02}, ...]"
+  }
+
+  fun toDomain(): List<Float> {
+    return listOf(
+      m00, m01, m02, m03,
+      m10, m11, m12, m13,
+      m20, m21, m22, m23,
+      m30, m31, m32, m33
+    )
+  }
+
+  companion object {
+    fun from(matrix: List<Float>): TransformMatrix {
+      require(matrix.size == 16) { "Matrix must have exactly 16 elements." }
+      return TransformMatrix(
+        matrix[0], matrix[1], matrix[2], matrix[3],
+        matrix[4], matrix[5], matrix[6], matrix[7],
+        matrix[8], matrix[9], matrix[10], matrix[11],
+        matrix[12], matrix[13], matrix[14], matrix[15]
+      )
+    }
+  }
+}
+
+@Embeddable
 data class TransformEmbeddable(
   @Embedded
   @AttributeOverrides(
