@@ -3,9 +3,9 @@ name: Docker Compose CI
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   docker-build-push:
@@ -27,7 +27,8 @@ jobs:
           echo "REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}" >> .env |
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> .env |
           echo "DOCKER_REPO=${{ vars.DOCKER_REPO }}" >> .env |
-          echo "MAX_MEMORY=${{ vars.MAX_MEMORY }}" >> .env
+          echo "MAX_MEMORY=${{ vars.MAX_MEMORY }}" >> .env |
+          echo "DDL_PROPERTY=${{ vars.DDL_PROPERTY }}" >> .env
         shell: bash
 
       - name: Set up Docker Buildx

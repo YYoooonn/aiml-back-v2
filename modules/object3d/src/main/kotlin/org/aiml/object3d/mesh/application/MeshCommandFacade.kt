@@ -1,5 +1,6 @@
 package org.aiml.object3d.mesh.application
 
+import org.aiml.object3d.base.application.dto.MeshDTO
 import org.aiml.object3d.mesh.domain.port.inbound.MeshCommandService
 import org.aiml.object3d.mesh.domain.port.outbound.query.MeshQueryPort
 import org.springframework.stereotype.Service
@@ -15,7 +16,6 @@ class MeshCommandFacade(
     val meshIds = meshQueryPort.findBySceneId(sceneId).getOrThrow().map { it.id }.distinct()
     return meshCommandService.deleteAllByIds(meshIds)
   }
-
 
   fun deleteAll() {
     return meshCommandService.deleteAll()

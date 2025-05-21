@@ -37,14 +37,13 @@ class MeshCommandAdapter(
     ).getOrThrow().associateBy { it.id }
 
     // (2) 저장
-    val savedEntities = meshRepository.saveAllAndFlush(
-      meshes.map { mesh ->
-        val parentEntity = mesh.parentId?.let { pId ->
-          parentEntities[pId]?.let { objectMapper.toEntityRef(it) }
-        }
-        MeshEntity.from(mesh, parentEntity)
+    val entities = meshes.map { mesh ->
+      val parentEntity = mesh.parentId?.let { pId ->
+        parentEntities[pId]?.let { objectMapper.toEntityRef(it) }
       }
-    )
+      MeshEntity.from(mesh, parentEntity)
+    }
+    val savedEntities = meshRepository.saveAllAndFlush(entities)
 
     // (3) Entity.id로 원래 Mesh 찾아서 도메인 만들기
     savedEntities.map { it.toDomain() }

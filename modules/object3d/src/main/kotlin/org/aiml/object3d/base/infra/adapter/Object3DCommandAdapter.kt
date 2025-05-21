@@ -7,7 +7,7 @@ import java.util.*
 
 @Component
 class Object3DCommandAdapter(
-  private val object3DRepository: Object3DRepository
+  private val object3DRepository: Object3DRepository,
 ) : Object3DCommandPort {
   override fun deleteBySceneId(sceneId: UUID): Result<Unit> = runCatching {
     object3DRepository.deleteAllBySceneId(sceneId)
@@ -15,5 +15,9 @@ class Object3DCommandAdapter(
 
   override fun deleteAll(): Result<Unit> = runCatching {
     object3DRepository.deleteAll()
+  }
+
+  override fun deleteByIds(ids: List<UUID>): Result<Unit> = runCatching {
+    object3DRepository.deleteAllById(ids)
   }
 }

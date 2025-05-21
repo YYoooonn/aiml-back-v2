@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/archive")
-class ArchiveController (
+class ArchiveController(
   private val projectQueryService: ProjectQueryService,
 ) {
 
-  @GetMapping("/search/project")
+  @GetMapping("/search")
   fun searchProjects(
     @RequestParam("query", required = true) query: String,
     @RequestParam("pageNum", defaultValue = "0") page: Int,

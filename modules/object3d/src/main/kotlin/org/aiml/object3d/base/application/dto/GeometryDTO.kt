@@ -9,7 +9,7 @@ import java.util.UUID
 data class GeometryDTO(
   val id: UUID = UUID.randomUUID(),
   val name: String = "untitled geometry",
-  val vertices: List<VertexDTO>,
+  val vertices: List<List<Float>>,
   val faces: List<List<Int>>
 ) {
   companion object {
@@ -17,7 +17,7 @@ data class GeometryDTO(
       val faces = geometry.faces.map { face ->
         face.vertices.map { fv -> fv.vertexIndex }
       }
-      val vertices = geometry.vertices.map { VertexDTO(it.x, it.y, it.z) }
+      val vertices = geometry.vertices.map { listOf(it.x, it.y, it.z) }
       return GeometryDTO(
         id = geometry.id,
         name = geometry.name,
@@ -37,8 +37,8 @@ data class GeometryDTO(
     )
   }
 
-  private fun toVertices(geoId: UUID, vertices: List<VertexDTO>) =
-    vertices.mapIndexed { index, v -> v.toDomain(geoId, index) }
+  private fun toVertices(geoId: UUID, vertices: List<List<Float>>) =
+    vertices.mapIndexed { index, v -> Vertex(geometryId = geoId, index = index, x = v[0], y = v[1], z = v[2]) }
 
   private fun toFaceVertices(indices: List<Int>): List<FaceVertex> =
     indices.mapIndexed { i, vIndex -> FaceVertex(vertexIndexOrder = i, vertexIndex = vIndex) }
@@ -53,21 +53,21 @@ data class GeometryDTO(
     }
 }
 
-data class VertexDTO(val x: Float, val y: Float, val z: Float) {
-  companion object {
-    fun from(x: Float, y: Float, z: Float): VertexDTO =
-      VertexDTO(
-        x = x,
-        y = y,
-        z = z
-      )
-  }
-
-  fun toDomain(id: UUID, index: Int): Vertex = Vertex(
-    geometryId = id,
-    index = index,
-    x = x,
-    y = y,
-    z = z
-  )
-}
+//data class VertexDTO(val x: Float, val y: Float, val z: Float) {
+//  companion object {
+//    fun from(x: Float, y: Float, z: Float): VertexDTO =
+//      VertexDTO(
+//        x = x,
+//        y = y,
+//        z = z
+//      )
+//  }
+//
+//  fun toDomain(id: UUID, index: Int): Vertex = Vertex(
+//    geometryId = id,
+//    index = index,
+//    x = x,
+//    y = y,
+//    z = z
+//  )
+//}

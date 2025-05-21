@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 import java.util.*
 
 @RestController
-@RequestMapping("/api/{projectId}/participant")
+@RequestMapping("/api/project/{projectId}/participant")
 class ParticipantController(
   private val participantService: ParticipantService,
 ) {

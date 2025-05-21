@@ -10,7 +10,7 @@ import java.util.*
 class GroupCommandServiceImpl(
   private val groupCommandPort: GroupCommandPort
 ) : GroupCommandService {
-  override fun create(dto: GroupDTO, sceneId: UUID): GroupDTO {
+  override fun create(dto: GroupDTO): GroupDTO {
     val group = groupCommandPort.save(dto.toDomain()).getOrThrow()
     return GroupDTO.from(group, dto.children)
   }
@@ -19,7 +19,7 @@ class GroupCommandServiceImpl(
     groupCommandPort.delete(id).getOrThrow()
   }
 
-  override fun update(dto: GroupDTO, sceneId: UUID): GroupDTO {
+  override fun update(dto: GroupDTO): GroupDTO {
     val updated = groupCommandPort.update(dto.toDomain()).getOrThrow()
     return GroupDTO.from(updated, dto.children)
   }

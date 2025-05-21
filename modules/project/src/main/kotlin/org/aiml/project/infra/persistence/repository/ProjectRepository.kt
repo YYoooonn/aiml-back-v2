@@ -8,15 +8,15 @@ import org.springframework.data.jpa.repository.Query
 import java.util.*
 
 interface ProjectRepository : JpaRepository<ProjectEntity, UUID> {
-  @Query(
-    """
-    SELECT p FROM ProjectEntity p
-    WHERE (
-      LOWER(p.title) LIKE LOWER(CONCAT('%', :query, '%'))
-      OR LOWER(p.subtitle) LIKE LOWER(CONCAT('%', :query, '%'))
-      OR LOWER(p.description) LIKE LOWER(CONCAT('%', :query, '%'))
-    ) AND p.status = 'PUBLIC'
-    """
-  )
-  fun findPublicByQuery(query: String, pageable: Pageable): Page<ProjectEntity>
+//  @Query(
+//    """
+//    SELECT p FROM ProjectEntity p
+//    WHERE (
+//      LOWER(p.title) LIKE LOWER(CONCAT('%', :query, '%'))
+//      OR LOWER(p.subtitle) LIKE LOWER(CONCAT('%', :query, '%'))
+//      OR LOWER(p.description) LIKE LOWER(CONCAT('%', :query, '%'))
+//    ) AND p.status = 'PUBLIC'
+//    """
+//  )
+//  fun findPublicByQuery(query: String, pageable: Pageable): Page<ProjectEntity>
 }

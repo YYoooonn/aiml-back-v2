@@ -8,25 +8,23 @@ import org.aiml.object3d.base.infra.persistence.entity.TransformMatrix
 import java.util.*
 
 @Entity
-@Table(name = "object3d_groups")
-data class GroupEntity(
-  @Id
-  override val id: UUID = UUID.randomUUID(),
+@DiscriminatorValue("group")
+class GroupEntity(
 
-  @Column(name = "scene_id", nullable = false)
-  override val sceneId: UUID,
+  id: UUID = UUID.randomUUID(),
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "parent_id")
-  override val parent: Object3DEntity? = null,
+  sceneId: UUID,
 
-  override val name: String,
+  parent: Object3DEntity? = null,
 
-  @Embedded
-  override val transform: TransformMatrix = TransformMatrix(),
+  name: String,
 
-  override val visible: Boolean = true,
-) : Object3DEntity(id, sceneId, parent, name, transform, visible, Object3DType.GROUP) {
+  transform: TransformMatrix = TransformMatrix(),
+
+  visible: Boolean = true,
+
+  type: Object3DType = Object3DType.GROUP
+) : Object3DEntity(id, sceneId, parent, name, transform, visible, type) {
   override fun toDomain(): Group {
     return Group(
       id = id,
@@ -42,7 +40,7 @@ data class GroupEntity(
   }
 
   companion object {
-    fun from(domain: Group, parent: Object3DEntity?): GroupEntity = GroupEntity(
+    fun from(domain: Group, parent: Object3DEntity? = null): GroupEntity = GroupEntity(
       id = domain.id,
       sceneId = domain.sceneId,
       parent = parent,
