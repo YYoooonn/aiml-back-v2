@@ -40,15 +40,15 @@ data class GeometryDTO(
   private fun toVertices(geoId: UUID, vertices: List<List<Float>>) =
     vertices.mapIndexed { index, v -> Vertex(geometryId = geoId, index = index, x = v[0], y = v[1], z = v[2]) }
 
-  private fun toFaceVertices(indices: List<Int>): List<FaceVertex> =
-    indices.mapIndexed { i, vIndex -> FaceVertex(vertexIndexOrder = i, vertexIndex = vIndex) }
+  private fun toFaceVertices(indices: List<Int>, faceIndex: Int): List<FaceVertex> =
+    indices.mapIndexed { i, vIndex -> FaceVertex(vertexIndexOrder = i, vertexIndex = vIndex, faceIndex = faceIndex) }
 
   private fun toFaces(geoId: UUID, faces: List<List<Int>>) =
     faces.mapIndexed { index, indices ->
       Face(
         geometryId = geoId,
         index = index,
-        vertices = toFaceVertices(indices)
+        vertices = toFaceVertices(indices, index)
       )
     }
 }

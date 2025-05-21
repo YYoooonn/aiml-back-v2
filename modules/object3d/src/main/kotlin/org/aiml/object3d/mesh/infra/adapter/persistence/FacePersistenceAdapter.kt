@@ -23,43 +23,34 @@ class FacePersistenceAdapter(
     val faceVertices = faceVertexPersistencePort.saveAll(
       faces.flatMapIndexed { fIndex, face ->
         // 저장된 FaceEntity id 기준 매핑
-        val faceId = fEntities[fIndex].id
+        val geometryId = fEntities[fIndex].geometryId
         face.vertices.mapIndexed { vIndex, faceVertex ->
           // FIXME 현재 entity로 만들어서 넘기고 싶지 않아서 data class 만들어서 넘기는 중 더 좋은 방법 고려
-          FVEntityConstructor(faceId, vIndex, faceVertex)
+          FVEntityConstructor(fIndex, geometryId, vIndex, faceVertex)
         }
       }
     ).getOrThrow()
 
-    val fvMap = faceVertices.groupBy { it.faceId }
-    fEntities.map { it.toDomain(fvMap[it.id] ?: emptyList()) }
+    val fvMap = faceVertices.groupBy { it.faceIndex }
+    fEntities.map { it.toDomain(fvMap[it.index] ?: emptyList()) }
   }
 
 
   override fun deleteByGeometryId(geoId: UUID): Result<Unit> = runCatching {
-    val faceIds = findFaceIds(geoId)
-    if (faceIds.isEmpty()) throw GeometryUnknownException("error while deleting faces")
-    faceVertexPersistencePort.deleteByFaceIds(faceIds)
+    faceVertexPersistencePort.deleteByGeometryIds(listOf(geoId))
     faceRepository.deleteByGeometryId(geoId)
   }
 
   override fun deleteByGeometryIds(geoIds: List<UUID>): Result<Unit> = runCatching {
-    val faceIds = findFaceIds(geoIds)
-    if (faceIds.isEmpty()) throw GeometryUnknownException("error while deleting faces")
-    faceVertexPersistencePort.deleteByFaceIds(faceIds)
+    faceVertexPersistencePort.deleteByGeometryIds(geoIds)
     faceRepository.deleteAllByGeometryIdIn(geoIds)
   }
 
 
-  private fun findFaceIds(geoId: UUID): List<Long> {
+  private fun findFaceIds(geoId: UUID): List<Int> {
     return faceRepository.findAllByGeometryId(geoId)
-      .map { it.id }
+      .map { it.index }
   }
-
-  private fun findFaceIds(geoIds: List<UUID>): List<Long> {
-    return faceRepository.findAllByGeometryIdIn(geoIds).map { it.id }
-  }
-
 
   override fun deleteAll(): Result<Unit> = runCatching {
     faceRepository.deleteAll()

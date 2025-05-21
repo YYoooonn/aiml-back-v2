@@ -1,26 +1,16 @@
 package org.aiml.object3d.mesh.infra.persistence.entity.geometry
 
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Index
-import jakarta.persistence.Id
-import jakarta.persistence.GeneratedValue
-import jakarta.persistence.Table
-import jakarta.persistence.GenerationType
+import jakarta.persistence.*
 import org.aiml.object3d.mesh.domain.model.geometry.Face
 import org.aiml.object3d.mesh.domain.model.geometry.FaceVertex
+import java.io.Serializable
 import java.util.*
 
 @Entity
-@Table(
-  name = "face",
-  indexes = [Index(name = "idx_face_geometry", columnList = "geometry_id")]
-)
+@IdClass(FaceId::class)
+@Table(name = "face")
 data class FaceEntity(
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  val id: Long = 0L,
-
   @Column(name = "geometry_id", nullable = false)
   val geometryId: UUID,
 
@@ -36,9 +26,13 @@ data class FaceEntity(
   }
 
   fun toDomain(vertices: List<FaceVertex>) = Face(
-    id = id,
     geometryId = geometryId,
     index = index,
     vertices = vertices
   )
 }
+
+data class FaceId(
+  val geometryId: UUID = UUID(0, 0),
+  val index: Int = 0
+) : Serializable
