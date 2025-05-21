@@ -50,7 +50,7 @@ jobs:
             sleep 10
           done
           echo "Timeout waiting for spring-api to become healthy"
-          docker logs myapp
+          docker logs spring-api
           exit 1
 
       - name: Check services
