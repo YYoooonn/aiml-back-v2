@@ -7,4 +7,5 @@ import java.util.UUID
 interface Object3DRepository : JpaRepository<Object3DEntity, UUID> {
   fun findAllBySceneId(sceneId: UUID): List<Object3DEntity>
   fun deleteAllBySceneId(sceneId: UUID)
+  fun deleteAllByParentId(parentId: UUID)
 }

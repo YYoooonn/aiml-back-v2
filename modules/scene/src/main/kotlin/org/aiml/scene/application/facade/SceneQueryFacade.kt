@@ -32,4 +32,5 @@ class SceneQueryFacade(
   private fun loadObjectTree(sceneId: UUID): List<Object3DDTO> {
     return object3DQueryFacade.getObjectTree(sceneId)
   }
+
 }

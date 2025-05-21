@@ -19,7 +19,7 @@ spring:
   jpa:
     mysql:
       hibernate:
-        ddl-auto: update   # create, update, validate, none 중 선택
+        ddl-auto: ${DDL_PROPERTY}   # create, update, validate, none 중 선택
       properties:
         hibernate:
           dialect: org.hibernate.dialect.MySQLDialect
@@ -27,7 +27,7 @@ spring:
 
     postgres:
       hibernate:
-        ddl-auto: update
+        ddl-auto: ${DDL_PROPERTY}
       properties:
         hibernate:
           dialect: org.hibernate.dialect.PostgreSQLDialect

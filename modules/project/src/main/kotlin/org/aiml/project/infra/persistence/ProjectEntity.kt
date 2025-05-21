@@ -19,7 +19,7 @@ data class ProjectEntity(
 
   val description: String? = null,
 
-  @Enumerated(EnumType.STRING)
+//  @Enumerated(EnumType.STRING)
   val status: ProjectStatus
 
 ) : BaseEntity() {

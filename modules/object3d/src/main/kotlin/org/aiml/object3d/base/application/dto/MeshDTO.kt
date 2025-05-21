@@ -9,7 +9,7 @@ data class MeshDTO(
   override val sceneId: UUID,
   override val name: String = "untitled mesh",
   override val type: String = "MESH",
-  override val transform: TransformDTO,
+  override val transform: List<Float>,
   override val visible: Boolean = true,
   override val parentId: UUID? = null,
 
@@ -23,7 +23,7 @@ data class MeshDTO(
       id = mesh.id,
       sceneId = mesh.sceneId,
       name = mesh.name,
-      transform = TransformDTO.from(mesh.transform),
+      transform = mesh.transform,
       visible = mesh.visible,
       parentId = mesh.parentId,
       createdAt = mesh.createdAt,
@@ -39,7 +39,7 @@ data class MeshDTO(
     sceneId = sceneId,
     parentId = parentId,
     name = name,
-    transform = transform.toDomain(),
+    transform = transform,
     visible = visible,
 
     geometryId = geometry.id,

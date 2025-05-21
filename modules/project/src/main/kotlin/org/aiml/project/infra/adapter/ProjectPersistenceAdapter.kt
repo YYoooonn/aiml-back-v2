@@ -36,7 +36,8 @@ class ProjectPersistenceAdapter(
   }
 
   override fun searchByQuery(query: String, pageable: Pageable): Page<Project> {
-    return projectRepository.findPublicByQuery(query, pageable).map { it.toDomain() }
+    TODO()
+//    return projectRepository.findPublicByQuery(query, pageable).map { it.toDomain() }
   }
 
 

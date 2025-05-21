@@ -8,7 +8,7 @@ sealed interface Object3DResponse {
   val id: UUID
   val name: String
   val type: String
-  val transform: TransformDTO
+  val transform: List<Float>
   val visible: Boolean
   val parentId: UUID?
 

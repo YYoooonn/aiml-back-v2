@@ -45,6 +45,16 @@ class MeshQueryServiceImpl(
     }
   }
 
+  override fun getGeometry(id: UUID): GeometryDTO {
+    val geo = geometryQueryPort.findById(id).getOrThrow()
+    return GeometryDTO.from(geo)
+  }
+
+  override fun getMaterial(id: UUID): MaterialDTO {
+    val mat = materialQueryPort.findById(id).getOrThrow()
+    return MaterialDTO.from(mat)
+  }
+
 
 }
 
