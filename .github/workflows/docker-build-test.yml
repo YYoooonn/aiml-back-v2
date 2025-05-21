@@ -35,29 +35,28 @@ jobs:
         run: docker compose -f docker-compose.yml build
 
       - name: Run containers
-        run: docker compose -f docker-compose.yml up -d
+        run: docker compose -f docker-compose.yml up
 
-      - name: Wait for api to become healthy
-        run: |
-          echo "Waiting for spring-api container to become healthy..."
-          for i in {1..30}; do
-            status=$(docker inspect --format='{{.State.Health.Status}}' spring-api)
-            echo "Current status: $status"
-            if [ "$status" == "healthy" ]; then
-              echo "spring-api is healthy!"
-              exit 0
-            fi
-            sleep 10
-          done
-          echo "Timeout waiting for spring-api to become healthy"
-          docker logs spring-api
-          exit 1
-
+      - name: Wait for services
+        run: sleep 10
+  
       - name: Check services
         run: docker compose ps
 
-      - name: Optional health check
-        run: curl -f http://localhost:8080/test || exit 1
+      - name: Optional health check with retries
+        run: |
+          for i in {1..10}; do
+            echo "Attempt $i..."
+            if curl -f http://localhost:8080/test; then
+              echo "Service is healthy!"
+              exit 0
+            fi
+            echo "Not healthy yet. Retrying in 10 seconds..."
+            sleep 10
+          done
+          echo "Service did not become healthy after 10 attempts."
+          exit 1
+        shell: bash
 
       - name: Stop containers
         run: docker compose down
