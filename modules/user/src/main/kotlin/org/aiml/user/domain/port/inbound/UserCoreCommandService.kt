@@ -8,5 +8,7 @@ interface UserCoreCommandService {
   fun update(user: UserCoreDTO): UserCoreDTO
   fun delete(id: UUID)
 
+  fun search(username: String): List<UserCoreDTO>
+
   fun deleteAll()
 }

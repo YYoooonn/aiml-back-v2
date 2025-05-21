@@ -69,7 +69,7 @@ class ProjectController(
     return deleted()
   }
 
-  @GetMapping("/{projectId}/scenes")
+  @GetMapping("/{projectId}/scene")
   fun getProjectScenes(
     @AuthenticationPrincipal principal: CustomUserPrincipal,
     @PathVariable("projectId") projectId: UUID,
@@ -78,7 +78,7 @@ class ProjectController(
     return ok(scenes.map { SceneResponse.fromDTO(it) })
   }
 
-  @PostMapping("/{projectId}/scenes")
+  @PostMapping("/{projectId}/scene")
   fun createProjectScene(
     @AuthenticationPrincipal principal: CustomUserPrincipal,
     @PathVariable("projectId") projectId: UUID,
