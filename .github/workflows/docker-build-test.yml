@@ -37,8 +37,21 @@ jobs:
       - name: Run containers
         run: docker compose -f docker-compose.yml up -d
 
-      - name: Wait for services
-        run: sleep 150
+      - name: Wait for api to become healthy
+        run: |
+          echo "Waiting for api container to become healthy..."
+          for i in {1..30}; do
+            status=$(docker inspect --format='{{.State.Health.Status}}' api)
+            echo "Current status: $status"
+            if [ "$status" == "healthy" ]; then
+              echo "api is healthy!"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Timeout waiting for api to become healthy"
+          docker logs myapp
+          exit 1
 
       - name: Check services
         run: docker compose ps
