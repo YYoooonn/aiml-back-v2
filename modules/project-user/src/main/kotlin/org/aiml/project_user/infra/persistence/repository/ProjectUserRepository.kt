@@ -13,7 +13,7 @@ interface ProjectUserRepository : JpaRepository<ProjectUserEntity, UUID> {
   fun findByProjectIdAndUserId(projectId: UUID, userId: UUID): Optional<ProjectUserEntity>
   fun deleteByProjectIdAndUserId(projectId: UUID, userId: UUID)
 
-  @Modifying(clearAutomatically = true)
-  @Transactional
+
   fun deleteAllByProjectId(projectId: UUID)
+  fun deleteAllByUserId(userId: UUID)
 }

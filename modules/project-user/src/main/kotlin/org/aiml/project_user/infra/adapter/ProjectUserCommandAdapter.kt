@@ -45,6 +45,12 @@ class ProjectUserCommandAdapter(
     }
   }
 
+  override fun deleteAllByUserId(userId: UUID): Result<Unit> {
+    return runCatching {
+      projectUserRepository.deleteAllByUserId(userId)
+    }
+  }
+
   override fun deleteAll(): Result<Unit> = runCatching {
     projectUserRepository.deleteAll()
   }

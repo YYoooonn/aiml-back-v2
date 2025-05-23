@@ -9,5 +9,7 @@ interface ProjectUserCommandPort {
   fun deleteByProjectIdAndUserId(projectId: UUID, userId: UUID): Result<Unit>
   fun deleteAllProjectUserByProjectId(projectId: UUID): Result<Unit>
 
+  fun deleteAllByUserId(userId: UUID): Result<Unit>
+
   fun deleteAll(): Result<Unit>
 }
