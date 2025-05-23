@@ -1,5 +1,6 @@
 package org.aiml.project_user.application.facade
 
+import jakarta.transaction.Transactional
 import org.aiml.project_user.application.ProjectUserAuthService
 import org.aiml.project_user.application.dto.ProjectUserDTO
 import org.aiml.project_user.application.dto.ProjectUserNameDTO
@@ -32,6 +33,7 @@ class ParticipantService(
     return ProjectUserNameDTO.from(pUser, user.username)
   }
 
+  @Transactional
   fun removeParticipant(userId: UUID, projectId: UUID, username: String) {
     authService.authenticateOwner(userId, projectId)
     val user = findUser(username)
