@@ -29,7 +29,7 @@ class ProjectUserCommandServiceImpl(
   }
 
   override fun deleteAllByUserId(userId: UUID) {
-    TODO("Not yet implemented")
+    return projectUserCommandPort.deleteAllProjectUserByProjectId(userId).getOrThrow()
   }
 
   override fun deleteAll() {
