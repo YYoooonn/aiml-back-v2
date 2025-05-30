@@ -48,8 +48,4 @@ class UserCoreCommandServiceImpl(
     return userCorePersistencePort.deleteAll().getOrThrow()
   }
 
-  override fun search(username: String): List<UserCoreDTO> {
-    return userCorePersistencePort.searchUsersByUsername(username).getOrThrow().map { UserCoreDTO.from(it) }
-  }
-
 }
