@@ -1,5 +1,6 @@
 package org.aiml.api.dto.user
 
+import org.aiml.libs.common.file.FileStorage
 import org.aiml.user.application.dto.UserCoreDTO
 import org.aiml.user.application.dto.UserDTO
 import org.aiml.user.application.dto.UserProfileDTO
@@ -17,14 +18,18 @@ data class UserResponse(
   val updatedAt: LocalDateTime
 ) {
   companion object {
-    fun from(dto: UserDTO): UserResponse {
+    fun from(dto: UserDTO, fileStorage: FileStorage?= null): UserResponse {
+      val imageUrl = dto.imageUrl?.let { key ->
+        fileStorage?.getUrl(key)
+      } ?: ""
+
       return UserResponse(
         username = dto.username,
         email = dto.email,
         firstName = dto.firstName ?: "",
         lastName = dto.lastName ?: "",
         bio = dto.bio ?: "",
-        imageUrl = dto.imageUrl ?: "",
+        imageUrl = imageUrl ?: "",
 
         createdAt = dto.createdAt,
         updatedAt = dto.updatedAt
@@ -56,11 +61,17 @@ data class UserProfileResponse(
   val imageUrl: String,
 ) {
   companion object {
-    fun from(dto: UserProfileDTO): UserProfileResponse = UserProfileResponse(
-      firstName = dto.firstName ?: "",
-      lastName = dto.lastName ?: "",
-      bio = dto.bio ?: "",
-      imageUrl = dto.imageUrl ?: "",
-    )
+    fun from(dto: UserProfileDTO, fileStorage: FileStorage? = null): UserProfileResponse {
+      val imageUrl = dto.imageUrl?.let { key ->
+        fileStorage?.getUrl(key)
+      } ?: ""
+
+      return UserProfileResponse(
+        firstName = dto.firstName ?: "",
+        lastName = dto.lastName ?: "",
+        bio = dto.bio ?: "",
+        imageUrl = imageUrl
+      )
+    }
   }
 }
