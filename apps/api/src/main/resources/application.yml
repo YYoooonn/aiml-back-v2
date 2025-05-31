@@ -33,6 +33,12 @@ spring:
           dialect: org.hibernate.dialect.PostgreSQLDialect
       show-sql: true
 
+  data:
+    redis:
+      host: redis
+      port: 6379
+      password: ${REDIS_PASSWORD}
+
 cloud:
   aws:
     s3:
@@ -40,16 +46,10 @@ cloud:
     region:
       static: ${S3_REGION}
     credentials:
-      accessKey: ${S3_ACCESS_KEY}
-      secretKey: ${S3_SECRET_KEY}
+      access-key: ${S3_ACCESS_KEY}
+      secret-key: ${S3_SECRET_KEY}
     stack:
       auto: false
-
-  data:
-    redis:
-      host: redis
-      port: 6379
-      password: ${REDIS_PASSWORD}
 
 server:
   port: 8080
