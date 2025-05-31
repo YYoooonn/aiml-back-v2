@@ -1,14 +1,15 @@
-# 빌드 스테이지
+# 1. 빌드 스테이지 : local 에선 주석처리하고 ./gradlew build
 FROM gradle:8.4-jdk17 AS build
 WORKDIR /app
 COPY . .
-RUN gradle bootJar --no-daemon
+RUN ./gradlew clean build -x test -x ktlintCheck -x ktlintKotlinScriptCheck
 
-# 런타임 스테이지
+# 2. 런타임 스테이지
 FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
+# COPY ./apps/api/build/libs/*.jar app.jar
 COPY --from=build  /app/apps/api/build/libs/*.jar app.jar
 EXPOSE 8080
 
