@@ -50,7 +50,6 @@ data class UserProfileRequest(
   val firstName: String? = null,
   val lastName: String? = null,
   val bio: String? = null,
-  val imageUrl: String? = null,
 )
 
 fun UserProfileRequest.toDTO(userId: UUID): UserProfileDTO {
@@ -59,7 +58,6 @@ fun UserProfileRequest.toDTO(userId: UUID): UserProfileDTO {
     firstName = firstName,
     lastName = lastName,
     bio = bio,
-    imageUrl = imageUrl
   )
 }
 

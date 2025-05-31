@@ -11,6 +11,8 @@ dependencies {
   //querydsl
   kapt("com.querydsl:querydsl-apt:5.1.0:jakarta")
   implementation("com.querydsl:querydsl-jpa:5.1.0:jakarta")
+
+  implementation("software.amazon.awssdk:s3:2.31.53")
 }
 
 // kotlin jpa : 아래의 어노테이션 클래스에 no-arg 생성자를 생성
@@ -26,3 +28,4 @@ allOpen {
   annotation("jakarta.persistence.MappedSuperclass")
   annotation("jakarta.persistence.Embeddable")
 }
+

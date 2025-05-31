@@ -10,7 +10,7 @@ data class UserProfileDTO(
   val firstName: String? = null,
   val lastName: String? = null,
   val bio: String? = null,
-  val imageUrl: String? = null,
+  var imageUrl: String? = null,
 
   val createdAt: LocalDateTime = LocalDateTime.now(),
   val updatedAt: LocalDateTime = LocalDateTime.now()
