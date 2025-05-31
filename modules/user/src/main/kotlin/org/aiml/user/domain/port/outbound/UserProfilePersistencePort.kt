@@ -8,6 +8,7 @@ interface UserProfilePersistencePort {
   fun deleteByUserId(userId: UUID): Result<Unit>
 
   // fun update(userProfile: UserProfile): Result<UserProfile>
+  fun upsert(profile: UserProfile): Result<UserProfile>
 
   fun findAll(): Result<List<UserProfile>>
   fun findByUserId(userId: UUID): Result<UserProfile?>

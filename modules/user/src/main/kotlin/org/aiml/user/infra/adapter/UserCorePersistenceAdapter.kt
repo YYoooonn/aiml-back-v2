@@ -4,6 +4,8 @@ import org.aiml.user.domain.model.User
 import org.aiml.user.domain.port.outbound.UserCorePersistencePort
 import org.aiml.user.infra.persistence.entity.UserEntity
 import org.aiml.user.infra.persistence.repository.UserCoreRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
 import java.util.*
 
@@ -60,7 +62,8 @@ class UserCorePersistenceAdapter(
     userCoreRepository.deleteAll()
   }
 
-  override fun searchUsersByUsername(username: String): Result<List<User>> = runCatching {
-    userCoreRepository.findByUsernameContainingIgnoreCase(username).map { it.toDomain() }
+  override fun searchUsersByUsername(username: String, pageable: Pageable): Result<Page<User>> = runCatching {
+    userCoreRepository.searchByUsernamePriority(username, pageable).map { it.toDomain() }
+    // TO DO STRENGTHING: add search by email, firstName, lastName
   }
 }

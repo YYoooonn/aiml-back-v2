@@ -1,6 +1,8 @@
 package org.aiml.user.domain.port.outbound
 
 import org.aiml.user.domain.model.User
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import java.util.UUID
 
 interface UserCorePersistencePort {
@@ -18,7 +20,7 @@ interface UserCorePersistencePort {
   fun existsByEmail(email: String): Boolean
   fun existsByUsername(username: String): Boolean
 
-  fun searchUsersByUsername(username: String): Result<List<User>>
+  fun searchUsersByUsername(username: String, pageable: Pageable): Result<Page<User>>
 
 
   fun deleteAll(): Result<Unit>
