@@ -31,6 +31,13 @@ class UserProfileCommandServiceImpl(
     return UserProfileDTO.from(profile)
   }
 
+  override fun deleteImageByUserId(userId: UUID) {
+    // Update the user profile to remove the image URL
+    val filePath = userProfilePersistencePort.deleteImageByUserId(userId).getOrThrow()
+    // Delete the image file from S3
+    userFilePort.deleteProfilePicture(filePath).getOrThrow()
+  }
+
   override fun deleteByUserId(userId: UUID) {
     userProfilePersistencePort.deleteByUserId(userId).getOrThrow()
   }

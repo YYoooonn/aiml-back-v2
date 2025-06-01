@@ -52,6 +52,14 @@ class UserController(
     return ok(UserProfileResponse.from(user, fileStorage))
   }
 
+  @DeleteMapping("/me/image")
+  fun deleteUserProfile(
+    @AuthenticationPrincipal principal: CustomUserPrincipal,
+  ): ResponseEntity<ApiResponse<Nothing>> {
+    userProfileCommandService.deleteImageByUserId(principal.userId) // ?
+    return deleted()
+  }
+
   @DeleteMapping("/me")
   fun deleteUser(
     @AuthenticationPrincipal principal: CustomUserPrincipal,

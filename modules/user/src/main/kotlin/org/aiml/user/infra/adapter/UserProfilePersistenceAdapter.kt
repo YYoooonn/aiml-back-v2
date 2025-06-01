@@ -25,10 +25,10 @@ class UserProfilePersistenceAdapter(
     val existing = userProfileRepository.findByUserId(profile.userId)
     if(existing != null) {
       val update = existing.copy(
-        firstName = profile.firstName,
-        lastName = profile.lastName,
-        bio = profile.bio,
-        imageUrl = profile.imageUrl,
+        firstName = profile.firstName ?: existing.firstName,
+        lastName = profile.lastName ?: existing.lastName,
+        bio = profile.bio ?: existing.bio,
+        imageUrl = profile.imageUrl ?: existing.imageUrl,
         )
       userProfileRepository.save(update).toDomain()
     } else {
@@ -36,6 +36,19 @@ class UserProfilePersistenceAdapter(
       userProfileRepository.save(entity).toDomain()
     }
   }
+
+  override fun deleteImageByUserId(userId: UUID): Result<String> = runCatching {
+    val existing = userProfileRepository.findByUserId(userId)
+    val imageUrl = existing?.imageUrl
+    if (existing != null) {
+      val updated = existing.copy(imageUrl = null)
+      userProfileRepository.save(updated).toDomain()
+    } else {
+      throw NoSuchElementException("User profile not found for userId: $userId")
+    }
+    imageUrl ?: throw NoSuchElementException("Image URL not found for userId: $userId")
+  }
+
 
 
   // query

@@ -14,6 +14,7 @@ interface UserProfilePersistencePort {
   fun findByUserId(userId: UUID): Result<UserProfile?>
 //  fun findByUsername(username: String): Result<UserProfile?>
 
+  fun deleteImageByUserId(userId: UUID): Result<String>
 
   fun deleteAll(): Result<Unit>
 }
