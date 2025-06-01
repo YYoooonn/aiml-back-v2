@@ -27,4 +27,16 @@ class UserFileAdapter(
       Result.failure(e)
     }
   }
+
+  override fun deleteProfilePicture(filePath: String): Result<Unit> {
+    return try {
+      // Delete the file using the file storage service
+      fileStorage.deleteFile(filePath)  // amazonS3.deleteObject(new DeleteObjectRequest(bucket, key));
+
+      Result.success(Unit)
+    } catch (e: Exception) {
+      // Handle any exceptions that occur during file deletion
+      Result.failure(e)
+    }
+  }
 }

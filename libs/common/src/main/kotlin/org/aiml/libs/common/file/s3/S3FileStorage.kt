@@ -11,6 +11,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectRequest
 import software.amazon.awssdk.services.s3.presigner.S3Presigner
 import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest
 import software.amazon.awssdk.core.sync.RequestBody
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest
 import java.time.Duration
 
 @Component
@@ -31,6 +32,15 @@ class S3FileStorage(
     s3Client.putObject(putObjectRequest, RequestBody.fromInputStream(file.inputStream, file.size))
 
     return putObjectRequest.key()
+  }
+
+  override fun deleteFile(path: String): Unit {
+    val deleteObjectRequest = DeleteObjectRequest.builder()
+      .bucket(bucketName)
+      .key(path)
+      .build()
+
+    s3Client.deleteObject(deleteObjectRequest)
   }
 
   override fun getUrl(path: String?): String {
