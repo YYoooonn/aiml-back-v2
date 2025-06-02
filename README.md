@@ -1,3 +1,5 @@
+## Architecture & Modules Design
+
 각 모듈들은 독립성을 가지기에, 타 모듈의 서비스를 직접 불러서 사용하는 일은 없어야함.
 
 타 모듈을 사용하기 위해선 port/inbound 의 usecase를 사용하고,
@@ -50,3 +52,24 @@ object3d     -> auth) project-user
 ./gradlew ktlintFormat
 
 ```
+
+---
+
+## Documentation
+
+### API
+
+View in Postman: https://documenter.getpostman.com/view/38654967/2sB2qgddfx
+
+### Software Architecture
+
+<p align="center"><img src="images/architecture.webp" alt="architecture.webp" /></p>
+
+- Auth: Spring Security + JWT
+- Data Persistence: Spring Data JPA, Hibernate, Querydsl
+- CI/CD: Github Actions, Docker
+
+### E-R Diagram
+
+<p align="center"><img src="images/erd.webp" alt="erd.webp" /></p>
+
